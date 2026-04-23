@@ -10,7 +10,8 @@ export default function Navbar() {
 
   const navLinks = <>
     <li><NavLink to="/">Home</NavLink></li>
-
+    <li><NavLink to="/send-parcel">Send Parcel</NavLink></li>
+    <li><NavLink to="/coverage">Coverage</NavLink></li>
   </>
 
 
@@ -52,14 +53,6 @@ export default function Navbar() {
   return (
     <>
       <style>{`
-
-        /* Frosted glass after scroll */
-        .navbar.scrolled {
-          background:white;
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-        }
-
         .sidebar {
           z-index: 1100;
           transform: translateX(-100%);
@@ -69,25 +62,25 @@ export default function Navbar() {
       `}</style>
 
       {/* NAVBAR */}
-      <nav className={`navbar${scrolled ? " scrolled" : ""} fixed z-50 w-full box-content`}>
+      <nav className="navbar max-w-350 mx-auto ">
 
-        <div className="max-w-350 w-full mx-auto px-6 py-3">
+        <div className="w-full bg-white py-5 px-6 rounded-2xl">
           <div className="flex justify-between items-center w-full transition-all duration-500 ease-in-out">
 
             <Link to="/" className="flex items-center gap-1">
-                <img src={logo} className="w-14" alt="" />
-                <h3 className="text-black text-3xl font-bold">SwiftMove</h3>
+              <img src={logo} className="w-10 -rotate-45 -mt-4" alt="" />
+              <h3 className="text-black text-3xl font-bold">SwiftMove</h3>
             </Link>
 
             <div className="flex gap-10 items-center">
-              <ul className="lg:flex hidden gap-6 text-black text-[17px] font-normal font-inter">
+              <ul className="lg:flex hidden gap-6 text-black text-[17px] font-inter font-medium">
                 {navLinks}
               </ul>
             </div>
 
             <div className="flex items-center gap-4">
               <div>
-                <button>Logout</button>
+                <Link  to="/login" className="btn border-none bg-[#CAEB66] px-6 text-black">Login</Link>
                 {/* {
                   user ?
                     <div className="relative">
