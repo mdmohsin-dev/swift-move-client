@@ -8,6 +8,9 @@ import Register from "../pages/Auth/Register";
 import Rider from "../pages/Rider";
 import PrivetRoute from "./PrivetRoute";
 import SendParcel from "../pages/SendParcel";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyParcels from "../pages/Dashboard/MyParcels";
+import DashboardHome from "../pages/Dashboard/DashboardHome";
 
 export const router = createBrowserRouter([
     {
@@ -29,8 +32,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "send-parcel",
-                // element:<PrivetRoute><SendParcel></SendParcel></PrivetRoute>
-                element: <SendParcel></SendParcel>,
+                element: <PrivetRoute><SendParcel></SendParcel></PrivetRoute>,
                 loader: () => fetch("/serviceCenter.json").then(res => res.json())
             }
         ]
@@ -46,6 +48,20 @@ export const router = createBrowserRouter([
             {
                 path: "register",
                 Component: Register
+            }
+        ]
+    },
+    {
+        path: "dashboard",
+        element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
+        children: [
+            {
+                index: true,
+                Component: DashboardHome
+            },
+            {
+                path: "myParcels",
+                Component: MyParcels
             }
         ]
     }

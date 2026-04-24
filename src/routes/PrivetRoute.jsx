@@ -8,7 +8,7 @@ const PrivetRoute = ({ children }) => {
     const location = useLocation()
 
     if (loading) {
-        return <div className="min-h-screen"><h1 className="text-7xl text-black">Loading...</h1></div>
+        return <div className="min-h-screen flex justify-center items-center"><h1 className="text-7xl text-black">Loading...</h1></div>
     }
 
     if (!user) {

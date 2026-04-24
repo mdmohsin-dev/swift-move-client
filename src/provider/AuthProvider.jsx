@@ -31,6 +31,10 @@ const AuthProvider = ({ children }) => {
         return signOut()
     }
 
+    const updateUser = () => {
+
+    }
+
 
     useEffect(() => {
         const unsbScribe = onAuthStateChanged(auth, (currentUser) => {

@@ -2,11 +2,16 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { IoIosMenu, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router";
 import logo from "../../assets/courier-logo.png"
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const sidebarRef = useRef(null);
+
+  const { user, logout } = useAuth()
 
   const navLinks = <>
     <li><NavLink to="/">Home</NavLink></li>
@@ -21,7 +26,28 @@ export default function Navbar() {
     }
   };
 
-  // Frosted glass after scroll
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You want to logout`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "I agree"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+  }
+
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
@@ -68,7 +94,7 @@ export default function Navbar() {
           <div className="flex justify-between items-center w-full transition-all duration-500 ease-in-out">
 
             <Link to="/" className="flex items-center gap-1">
-              <img src={logo} className="w-10 -rotate-45 -mt-4" alt="" />
+              <img src={logo} className="w-10" alt="" />
               <h3 className="text-black text-3xl font-bold">SwiftMove</h3>
             </Link>
 
@@ -80,32 +106,29 @@ export default function Navbar() {
 
             <div className="flex items-center gap-4">
               <div>
-                <Link  to="/login" className="btn border-none bg-[#CAEB66] px-6 text-black">Login</Link>
-                {/* {
+                {
                   user ?
                     <div className="relative">
                       <img
                         onClick={() => setOpen(!open)}
-                        className="w-12 h-12 object-cover rounded-full border cursor-pointer"
-                        src={user?.photoURL || userLogo}
+                        className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                        src={user?.photoURL}
                         alt=""
                       />
 
                       {open && (
-                        <div className="absolute right-1 top-14 w-52 bg-white text-black p-4 shadow rounded-md">
-                          <h3 className="text-center text-xl font-semibold">{user.displayName}</h3>
+                        <div className="absolute right-1 top-14 w-52 bg-[#EAECED] text-black p-4 shadow rounded-md flex flex-col ">
+                          
+                          <Link className="btn bg-[#F4AE33]" to="/dashboard">Dashboard</Link>
                           <button
                             onClick={handleLogout}
-                            className="btn w-full mt-3 btn-gradient border-none">Logout</button>
+                            className="btn w-full mt-3 btn-gradient border-none bg-[#CAEB66]">Logout</button>
                         </div>
                       )}
                     </div>
-
                     :
-
-                    <Link to="/login"
-                      className="hidden btn rounded-md btn-gradient border-none lg:flex gap-4 text-lg py-4 px-6 font-exo hover:rounded-3xl transition-all text-black duration-500">Sign In</Link>
-                } */}
+                    <Link to="/login" className="btn border-none bg-[#CAEB66] px-6 text-black">Login</Link>
+                }
               </div>
 
               <button
