@@ -49,6 +49,15 @@ const SendParcel = () => {
             }
         }
 
+        const parcelData = {
+            ...data,
+            cost: {
+                amount: cost,
+                currency: "BDT"
+            },
+            createdAt: new Date()
+        }
+
         Swal.fire({
             title: "Agree with the cost",
             text: `You will be charged ${cost} taka`,
@@ -61,13 +70,12 @@ const SendParcel = () => {
             if (result.isConfirmed) {
 
                 // SAVE PARCEL ON DATABASE
-                axiosSecure.post("/parcels", data)
+                axiosSecure.post("/parcels", parcelData)
                     .then(res => {
                         console.log('after save data on database', res.data)
                     })
                 Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    title: "Booking Confirm",
                     icon: "success"
                 });
             }
@@ -107,7 +115,7 @@ const SendParcel = () => {
                             <input
                                 type="text"
                                 {...register('parcelName', { required: true })}
-                                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="Parcel Name"
                             />
                             {errors.parcelName?.type === 'required' && (<p className='text-red-500 text-lg font-medium'> add your Parcel Name</p>)}
@@ -126,7 +134,7 @@ const SendParcel = () => {
                                         return true
                                     }
                                 })}
-                                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="Parcel Weight (KG)"
                             />
                             {
@@ -273,7 +281,7 @@ const SendParcel = () => {
                             <div className='w-full pt-5'>
                                 <label className="text-sm md:text-lg font-semibold text-gray-700 flex items-center gap-2">Reciever District
                                 </label>
-                                <select {...register('recieverDistrict',{required:true})}
+                                <select {...register('recieverDistrict', { required: true })}
                                     defaultValue="Pick a color" className="select w-full">
                                     <option disabled={true}>Pick a Disrtict</option>
                                     {
@@ -290,7 +298,7 @@ const SendParcel = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    {...register('recieverAddress',{required:true})}
+                                    {...register('recieverAddress', { required: true })}
                                     className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Reciever Address"
                                 />
@@ -303,7 +311,7 @@ const SendParcel = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    {...register('recieverPhoneNo',{required:true})}
+                                    {...register('recieverPhoneNo', { required: true })}
                                     className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Reciever Phone No"
                                 />

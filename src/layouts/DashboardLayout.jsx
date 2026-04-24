@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/courier-logo.png"
+import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
+import { MdBarChart } from "react-icons/md";
 
 const menuItems = [
-    { icon: "⊞", label: "Dashboard" },
-    { icon: "📊", label: "Analytics" }
+    { icon: <FaBoxOpen size={20} />, label: "My Parcels", to: "/dashboard/myParcels" }
 ];
 
 export default function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
-    const [activeItem, setActiveItem] = useState("Dashboard");
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [tooltip, setTooltip] = useState({ label: "", top: 0, visible: false });
 
@@ -69,12 +69,39 @@ export default function DashboardLayout() {
           max-width: 0;
         }
 
-        .menu-item:hover .item-bg {
+        .nav-item:hover .item-bg {
           background: rgba(99, 102, 241, 0.15);
         }
 
-        .menu-item.active .item-bg {
+        .nav-item.active .item-bg {
           background: rgba(99, 102, 241, 0.25);
+        }
+
+        .nav-item .nav-icon {
+          color: #9ca3af;
+        }
+        .nav-item:hover .nav-icon {
+          color: #a5b4fc;
+        }
+        .nav-item.active .nav-icon {
+          color: #818cf8;
+        }
+
+        .nav-item .nav-label {
+          color: #9ca3af;
+        }
+        .nav-item:hover .nav-label {
+          color: #e0e7ff;
+        }
+        .nav-item.active .nav-label {
+          color: #a5b4fc;
+        }
+
+        .nav-item .active-dot {
+          display: none;
+        }
+        .nav-item.active .active-dot {
+          display: block;
         }
 
         .sidebar-overlay {
@@ -85,7 +112,6 @@ export default function DashboardLayout() {
           box-shadow: 0 0 0 2px #4f46e5, 0 0 10px rgba(99,102,241,0.6);
         }
 
-        /* Tooltip */
         .nav-tooltip {
           position: fixed;
           left: 68px;
@@ -114,7 +140,7 @@ export default function DashboardLayout() {
           border-style: solid;
           border-color: transparent rgba(99,102,241,0.35) transparent transparent;
         }
-        .menu-item:hover .nav-tooltip {
+        .nav-item:hover .nav-tooltip {
           opacity: 1;
           transform: translateX(0);
         }
@@ -132,28 +158,29 @@ export default function DashboardLayout() {
             <aside
                 className={`sidebar-transition relative z-20 flex flex-col bg-gray-900 border-r border-gray-800/60 shrink-0
           ${isMobile ? "absolute h-full" : "relative"}
-          ${isExpanded ? "w-56" : "w-16"}
+          ${isExpanded ? "w-64" : "w-16"}
         `}
             >
                 {/* Logo */}
-                <div className="flex items-center h-16 px-4 shrink-0">
-                    <div className="w-11 h-11 rounded-lg  flex items-center justify-center font-bold text-sm shrink-0 shadow-lg">
+                <Link to="/dashboard"
+                className="flex items-center h-16 px-4 shrink-0">
+                    <div className="w-11 h-11 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 shadow-lg">
                         <img src={logo} alt="" />
                     </div>
                     <span
-                        className={`label-transition ml-3 font-semibold text-white tracking-tight ${isExpanded ? "label-visible" : "label-hidden"
-                            }`}
+                        className={`label-transition ml-3 font-semibold text-white tracking-tight ${isExpanded ? "label-visible" : "label-hidden"}`}
                     >
                         SwiftMove
                     </span>
-                </div>
+                </Link>
 
                 {/* Nav Items */}
                 <nav className="flex-1 py-4 space-y-1 px-2 overflow-hidden">
-                    {menuItems.map(({ icon, label }) => (
-                        <button
+                    {menuItems.map(({ icon, label, to }) => (
+                        <NavLink
                             key={label}
-                            onClick={() => setActiveItem(label)}
+                            to={to}
+                            end
                             onMouseEnter={(e) => {
                                 if (!isExpanded) {
                                     const rect = e.currentTarget.getBoundingClientRect();
@@ -161,45 +188,35 @@ export default function DashboardLayout() {
                                 }
                             }}
                             onMouseLeave={() => setTooltip((t) => ({ ...t, visible: false }))}
-                            className={`menu-item w-full flex items-center rounded-xl px-2 py-2.5 relative group ${activeItem === label ? "active" : ""
-                                }`}
+                            className="nav-item w-full flex items-center rounded-xl px-2 py-2.5 relative group"
                         >
-                            <div
-                                className={`item-bg absolute inset-0 rounded-xl transition-all duration-200 ${activeItem === label ? "bg-indigo-500/20" : ""
-                                    }`}
-                            />
-                            <span
-                                className={`relative z-10 text-xl shrink-0 w-8 flex items-center justify-center ${activeItem === label ? "text-indigo-400" : "text-gray-400 group-hover:text-indigo-300"
-                                    }`}
-                            >
+                            <div className="item-bg absolute inset-0 rounded-xl transition-all duration-200" />
+                            <span className="nav-icon relative z-10 text-xl shrink-0 w-8 flex items-center justify-center">
                                 {icon}
                             </span>
                             <span
-                                className={`label-transition relative z-10 ml-2 text-sm font-medium ${activeItem === label ? "text-indigo-300" : "text-gray-400 group-hover:text-indigo-200"
-                                    } ${isExpanded ? "label-visible" : "label-hidden"}`}
+                                className={`nav-label label-transition relative z-10 ml-2 text-sm font-medium ${isExpanded ? "label-visible" : "label-hidden"}`}
                             >
                                 {label}
                             </span>
-                            {activeItem === label && (
-                                <span className="absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot" />
-                            )}
-                        </button>
+                            <span className="active-dot absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot" />
+                        </NavLink>
                     ))}
                 </nav>
 
-                {/* Bottom user mini */}
+                {/* Bottom */}
                 <div className="border-t border-gray-800/60 p-3">
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold shrink-0">
-                            RH
-                        </div>
+                    <Link
+                        to="/"
+                        className="btn w-full bg-[#F4AE33] text-[16px] border-none flex items-center justify-center"
+                    >
+                        <FaArrowLeft size={20} className="shrink-0" />
                         <span
-                            className={`label-transition text-xs text-gray-400 font-medium ${isExpanded ? "label-visible" : "label-hidden"
-                                }`}
+                            className={`label-transition ml-2 ${isExpanded ? "label-visible" : "label-hidden"}`}
                         >
-                            Rahim Hossain
+                            Return Home
                         </span>
-                    </div>
+                    </Link>
                 </div>
             </aside>
 
@@ -207,7 +224,6 @@ export default function DashboardLayout() {
             <div className="flex-1 flex flex-col min-w-0">
                 {/* Topbar */}
                 <header className="h-16 bg-gray-900/80 backdrop-blur border-b border-gray-800/60 flex items-center justify-between px-4 shrink-0">
-                    {/* Toggle Button */}
                     <button
                         onClick={handleToggle}
                         className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-indigo-600/30 border border-gray-700/60 hover:border-indigo-500/40 flex items-center justify-center text-gray-400 hover:text-indigo-300 transition-all duration-200"
@@ -223,7 +239,6 @@ export default function DashboardLayout() {
                         </svg>
                     </button>
 
-                    {/* Right: User */}
                     <div className="flex items-center gap-3">
                         <button className="w-9 h-9 rounded-lg bg-gray-800 border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,7 +246,6 @@ export default function DashboardLayout() {
                             </svg>
                         </button>
 
-                        {/* User Badge */}
                         <div className="flex items-center gap-2.5 bg-gray-800/80 border border-gray-700/60 rounded-xl px-3 py-1.5">
                             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold shadow">
                                 RH
@@ -250,10 +264,11 @@ export default function DashboardLayout() {
                 {/* Page Content */}
                 <main className="flex-1 overflow-auto p-5 bg-white">
                     <div className="max-w-5xl mx-auto space-y-5">
-                        <Outlet></Outlet>
+                        <Outlet />
                     </div>
                 </main>
             </div>
+
             {/* Floating Tooltip */}
             {tooltip.visible && !isExpanded && (
                 <div
