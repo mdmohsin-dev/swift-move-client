@@ -22,18 +22,18 @@ const Coverage = () => {
     }
 
     return (
-        <div className="max-w-350 mx-auto bg-white rounded-3xl p-10 mt-8">
-            <h3 className="text-[56px] font-bold">We are available in 64 districts</h3>
-            <div className="mt-12">
+        <div className="max-w-350 mx-auto bg-white rounded-3xl md:p-10  p-6 mt-8">
+            <h3 className="lg:text-[56px] text-4xl font-bold">We are available in 64 districts</h3>
+            <div className="md:mt-12 mt-7">
                 <form onSubmit={handleSearch}>
                     <div className="border border-gray-300 max-w-md flex justify-between">
                         <input name="location"
-                            className="input focus:outline-none border-none w-full" placeholder="Search here" type="text" />
+                            className="input focus:outline-none border-none w-full" placeholder="Search by district" type="text" />
                         <button type="submit" className="btn bg-[#AED82F]">Search</button>
                     </div>
                 </form>
             </div>
-            <p className="text-3xl font-bold  pt-14">We deliver almost all over Bangladesh</p>
+            <p className="text-3xl font-bold md:pt-14  pt-8">We deliver almost all over Bangladesh</p>
             <div className="mt-12">
                 <MapContainer
                     center={position}

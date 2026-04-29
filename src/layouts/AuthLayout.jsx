@@ -8,7 +8,7 @@ const AuthLayout = () => {
         <div className='h-screen px-6'>
             <div className='flex h-full'>
                 <Link to="/" className="flex items-center gap-1 pt-5 absolute">
-                    <img src={logo} className="w-10 -rotate-45 -mt-4" alt="" />
+                    <img src={logo} className="w-10" alt="" />
                     <h3 className="text-black text-3xl font-bold">SwiftMove</h3>
                 </Link>
                 <div className='w-1/2'>

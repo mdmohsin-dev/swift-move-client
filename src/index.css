@@ -16,8 +16,10 @@ body {
 }
 
 
-.navbar .active{
-color: #aed82f;
-font-weight: 700;
-border-bottom: 2px solid #aed82f; padding-bottom: 4px;
+.navbar .active {
+    font-weight: 700;
+    /* border-bottom: 2px solid #aed82f; padding-bottom: 4px; */
+    background-color: #CAEB66;
+    padding: 8px 18px;
+    border-radius: 20px;
 }

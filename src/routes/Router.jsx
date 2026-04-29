@@ -11,6 +11,12 @@ import SendParcel from "../pages/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
+import Payment from "../pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
+import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
+import AllRiders from "../pages/Dashboard/AllRiders";
+import AllUsers from "../pages/Dashboard/AllUsers";
 
 export const router = createBrowserRouter([
     {
@@ -28,7 +34,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: "beArider",
-                element: <PrivetRoute><Rider></Rider></PrivetRoute>
+                element: <PrivetRoute><Rider></Rider></PrivetRoute>,
+                loader: () => fetch("/serviceCenter.json").then(res => res.json())
             },
             {
                 path: "send-parcel",
@@ -62,6 +69,30 @@ export const router = createBrowserRouter([
             {
                 path: "myParcels",
                 Component: MyParcels
+            },
+            {
+                path: "payment/:parcelId",
+                Component: Payment
+            },
+            {
+                path: "payment-success",
+                Component: PaymentSuccess
+            },
+            {
+                path: "payment-cancelled",
+                Component: PaymentCancel
+            },
+            {
+                path: "payment-history",
+                Component: PaymentHistory
+            },
+            {
+                path: "allRiders",
+                Component: AllRiders
+            },
+            {
+                path: "allUsers",
+                Component: AllUsers
             }
         ]
     }

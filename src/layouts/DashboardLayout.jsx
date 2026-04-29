@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/courier-logo.png"
 import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
-import { MdBarChart } from "react-icons/md";
-
-const menuItems = [
-    { icon: <FaBoxOpen size={20} />, label: "My Parcels", to: "/dashboard/myParcels" }
-];
+import { MdBarChart, MdDirectionsBike, MdPayment } from "react-icons/md";
+import { HiUsers } from "react-icons/hi";
+import useRole from "../hooks/useRole";
 
 export default function DashboardLayout() {
+    const { role } = useRole();
+    console.log(role)
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,6 +38,34 @@ export default function DashboardLayout() {
             setSidebarOpen((prev) => !prev);
         }
     };
+
+
+    const NavItem = ({ icon, label, to }) => (
+        <NavLink
+            to={to}
+            end
+            onMouseEnter={(e) => {
+                if (!isExpanded) {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setTooltip({ label, top: rect.top + rect.height / 2, visible: true });
+                }
+            }}
+            onMouseLeave={() => setTooltip((t) => ({ ...t, visible: false }))}
+            className="nav-item w-full flex items-center rounded-xl px-2 py-2.5 relative group"
+        >
+            <div className="item-bg absolute inset-0 rounded-xl transition-all duration-200" />
+            <span className="nav-icon relative z-10 text-xl shrink-0 w-8 flex items-center justify-center text-white">
+                {icon}
+            </span>
+            <span
+                className={`nav-label label-transition relative z-10 ml-2 text-sm font-medium ${isExpanded ? "label-visible" : "label-hidden"}`}
+            >
+                {label}
+            </span>
+            <span className="active-dot absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot" />
+        </NavLink>
+    );
+
 
     return (
         <div
@@ -78,7 +107,7 @@ export default function DashboardLayout() {
         }
 
         .nav-item .nav-icon {
-          color: #9ca3af;
+          color: white;
         }
         .nav-item:hover .nav-icon {
           color: #a5b4fc;
@@ -88,7 +117,7 @@ export default function DashboardLayout() {
         }
 
         .nav-item .nav-label {
-          color: #9ca3af;
+          color: white;
         }
         .nav-item:hover .nav-label {
           color: #e0e7ff;
@@ -158,12 +187,12 @@ export default function DashboardLayout() {
             <aside
                 className={`sidebar-transition relative z-20 flex flex-col bg-gray-900 border-r border-gray-800/60 shrink-0
           ${isMobile ? "absolute h-full" : "relative"}
-          ${isExpanded ? "w-64" : "w-16"}
+          ${isExpanded ? "w-[270px]" : "w-16"}
         `}
             >
-                {/* Logo */}
+
                 <Link to="/dashboard"
-                className="flex items-center h-16 px-4 shrink-0">
+                    className="flex items-center h-16 px-4 shrink-0">
                     <div className="w-11 h-11 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 shadow-lg">
                         <img src={logo} alt="" />
                     </div>
@@ -174,37 +203,49 @@ export default function DashboardLayout() {
                     </span>
                 </Link>
 
-                {/* Nav Items */}
-                <nav className="flex-1 py-4 space-y-1 px-2 overflow-hidden">
-                    {menuItems.map(({ icon, label, to }) => (
-                        <NavLink
-                            key={label}
-                            to={to}
-                            end
-                            onMouseEnter={(e) => {
-                                if (!isExpanded) {
-                                    const rect = e.currentTarget.getBoundingClientRect();
-                                    setTooltip({ label, top: rect.top + rect.height / 2, visible: true });
-                                }
-                            }}
-                            onMouseLeave={() => setTooltip((t) => ({ ...t, visible: false }))}
-                            className="nav-item w-full flex items-center rounded-xl px-2 py-2.5 relative group"
-                        >
-                            <div className="item-bg absolute inset-0 rounded-xl transition-all duration-200" />
-                            <span className="nav-icon relative z-10 text-xl shrink-0 w-8 flex items-center justify-center">
-                                {icon}
-                            </span>
-                            <span
-                                className={`nav-label label-transition relative z-10 ml-2 text-sm font-medium ${isExpanded ? "label-visible" : "label-hidden"}`}
-                            >
-                                {label}
-                            </span>
-                            <span className="active-dot absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot" />
-                        </NavLink>
-                    ))}
+
+                <nav className="flex-1 py-4 space-y-3 px-2 overflow-hidden">
+
+
+                    {(role === 'user' || role === 'admin') && (
+                        <NavItem
+                            icon={<FaBoxOpen size={20} />}
+                            label="My Parcels"
+                            to="/dashboard/myParcels"
+                        />
+                    )}
+
+
+                    {(role === "user" || role === "admin") && (
+                        <NavItem
+                            icon={<MdPayment size={20} />}
+                            label="Payment History"
+                            to="/dashboard/payment-history"
+                        />
+                    )}
+
+
+                    {role === "admin" && (
+                        <NavItem
+                            icon={<MdDirectionsBike size={20} />}
+                            label="All Riders"
+                            to="/dashboard/allRiders"
+                        />
+                    )}
+
+
+                    {role === "admin" && (
+                        <NavItem
+                            icon={<HiUsers size={20} />}
+                            label="All Users"
+                            to="/dashboard/allUsers"
+                        />
+                    )}
+
                 </nav>
 
-                {/* Bottom */}
+
+
                 <div className="border-t border-gray-800/60 p-3">
                     <Link
                         to="/"
@@ -220,9 +261,9 @@ export default function DashboardLayout() {
                 </div>
             </aside>
 
-            {/* Main Content */}
+
             <div className="flex-1 flex flex-col min-w-0">
-                {/* Topbar */}
+
                 <header className="h-16 bg-gray-900/80 backdrop-blur border-b border-gray-800/60 flex items-center justify-between px-4 shrink-0">
                     <button
                         onClick={handleToggle}
@@ -247,7 +288,7 @@ export default function DashboardLayout() {
                         </button>
 
                         <div className="flex items-center gap-2.5 bg-gray-800/80 border border-gray-700/60 rounded-xl px-3 py-1.5">
-                            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold shadow">
+                            <div className="w-7 h-7 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold shadow">
                                 RH
                             </div>
                             <div className="hidden sm:block">
@@ -261,15 +302,15 @@ export default function DashboardLayout() {
                     </div>
                 </header>
 
-                {/* Page Content */}
-                <main className="flex-1 overflow-auto p-5 bg-white">
-                    <div className="max-w-5xl mx-auto space-y-5">
+
+                <main className="min-h-screen p-5 bg-white">
+                    <div>
                         <Outlet />
                     </div>
                 </main>
             </div>
 
-            {/* Floating Tooltip */}
+
             {tooltip.visible && !isExpanded && (
                 <div
                     className="nav-tooltip"

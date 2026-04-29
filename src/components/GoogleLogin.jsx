@@ -1,13 +1,22 @@
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const GoogleLogin = () => {
     const { googleSignIn } = useAuth()
+    const axiosSecure = useAxiosSecure()
 
     const handleGoogleLogin = () => {
         googleSignIn()
             .then(result => {
-                console.log(result.user)
+
+                const userInfo = {
+                    dsplayName: result.user.displayName,
+                    email: result.user.email,
+                    photoURL: result.user.photoURL
+                }
+
+                axiosSecure.post("/users", userInfo)
             })
             .catch(err => {
                 console.log(err)

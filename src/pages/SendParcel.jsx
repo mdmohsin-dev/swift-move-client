@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import useAuth from '../hooks/useAuth';
@@ -11,6 +11,7 @@ const SendParcel = () => {
     const axiosSecure = useAxiosSecure()
 
     const { user } = useAuth()
+    const navigate = useNavigate()
 
     const serviceCeners = useLoaderData()
     const regionsDuplicate = serviceCeners.map(c => c.region)
@@ -51,10 +52,7 @@ const SendParcel = () => {
 
         const parcelData = {
             ...data,
-            cost: {
-                amount: cost,
-                currency: "BDT"
-            },
+            cost: cost,
             createdAt: new Date()
         }
 
@@ -71,13 +69,18 @@ const SendParcel = () => {
 
                 // SAVE PARCEL ON DATABASE
                 axiosSecure.post("/parcels", parcelData)
-                    .then(res => {
+                    .then(async res => {
                         console.log('after save data on database', res.data)
+                        if (res.data.insertedId) {
+                            await Swal.fire({
+                                title: "Booking Confirm",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            navigate("/dashboard/myParcels")
+                        }
                     })
-                Swal.fire({
-                    title: "Booking Confirm",
-                    icon: "success"
-                });
             }
         });
     }
@@ -107,7 +110,7 @@ const SendParcel = () => {
                     </div>
 
                     {/* PARCEL NAME &&  PARCEL WEIGHT*/}
-                    <div className='flex w-full gap-7 justify-between border-b border-b-gray-300 py-7'>
+                    <div className='flex flex-col md:flex-row w-full gap-7 justify-between border-b border-b-gray-300 py-7'>
                         {/* PARCEL NAME */}
                         <div className='w-full'>
                             <label className="text-sm md:text-lg font-semibold text-gray-700 flex items-center gap-2">Parcel Name
@@ -125,7 +128,7 @@ const SendParcel = () => {
                             <label className="text-sm md:text-lg font-semibold text-gray-700 flex items-center gap-2">Parcel Weight (KG)
                             </label>
                             <input
-                                type="text"
+                                type="number"
                                 {...register('parcelWeight', {
                                     validate: (value) => {
                                         if (parcelType === 'not-document' && !value) {
@@ -147,7 +150,7 @@ const SendParcel = () => {
                         </div>
                     </div>
 
-                    <div className='flex gap-7 mt-8'>
+                    <div className='flex flex-col md:flex-row gap-7 mt-8'>
                         {/* SENDER DETAILS */}
                         <div className='w-full'>
                             <p className='text-xl font-extrabold pb-6'>Sender Details</p>
@@ -174,7 +177,7 @@ const SendParcel = () => {
                                     type="email"
                                     defaultValue={user?.email}
                                     {...register('senderEmail')}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Sender Email"
                                 />
                                 {errors.senderEmail?.type === 'required' && (<p className='text-red-500 text-lg font-medium'> add your email</p>)}
@@ -185,7 +188,7 @@ const SendParcel = () => {
                                 <label className="text-sm md:text-lg font-semibold text-gray-700 flex items-center gap-2">Sender Region
                                 </label>
                                 <select {...register('senderRegion')}
-                                    defaultValue="Pick a color" className="select w-full">
+                                    className="select w-full">
                                     <option disabled={true}>Pick a region</option>
                                     {
                                         regions.map((r, i) => <option key={i} value={r}>{r}</option>)
@@ -198,7 +201,7 @@ const SendParcel = () => {
                                 <label className="text-sm md:text-lg font-semibold text-gray-700 flex items-center gap-2">Sender District
                                 </label>
                                 <select {...register('senderDistrict')}
-                                    defaultValue="Pick a color" className="select w-full">
+                                className="select w-full">
                                     <option disabled={true}>Pick a Disrtict</option>
                                     {
                                         districtByRegion(senderRegion).map((r, i) => <option key={i} value={r}>{r}</option>)
@@ -214,7 +217,7 @@ const SendParcel = () => {
                                 <input
                                     type="text"
                                     {...register('senderAddress', { required: true })}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Sender Address"
                                 />
                                 {errors.senderAddress?.type === 'required' && (<p className='text-red-500 text-lg font-medium'>Add your area address</p>)}
@@ -227,7 +230,7 @@ const SendParcel = () => {
                                 <input
                                     type="number"
                                     {...register('senderPhoneNumber', { required: true })}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Sender Address"
                                 />
                                 {errors.senderPhoneNumber?.type === 'required' && (<p className='text-red-500 text-lg font-medium'>Add your phone no</p>)}
@@ -245,7 +248,7 @@ const SendParcel = () => {
                                 <input
                                     type="text"
                                     {...register('recieverName', { required: true })}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Reciever Name"
                                 />
                                 {errors.recieverName?.type === 'required' && (<p className='text-red-500 text-lg font-medium'>Add your reciever name</p>)}
@@ -258,7 +261,7 @@ const SendParcel = () => {
                                 <input
                                     type="email"
                                     {...register('recieverEmail', { required: true })}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Reciever Email"
                                 />
                                 {errors.recieverEmail?.type === 'required' && (<p className='text-red-500 text-lg font-medium'>Add your reciever email</p>)}
@@ -299,7 +302,7 @@ const SendParcel = () => {
                                 <input
                                     type="text"
                                     {...register('recieverAddress', { required: true })}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Reciever Address"
                                 />
                                 {errors.recieverAddress?.type === 'required' && (<p className='text-red-500 text-lg font-medium'>Add your reciever area address</p>)}
@@ -312,7 +315,7 @@ const SendParcel = () => {
                                 <input
                                     type="text"
                                     {...register('recieverPhoneNo', { required: true })}
-                                    className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
+                                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="Reciever Phone No"
                                 />
                                 {errors.recieverPhoneNo?.type === 'required' && (<p className='text-red-500 text-lg font-medium'>Add your reciever phone number</p>)}

@@ -17,6 +17,7 @@ export default function Navbar() {
     <li><NavLink to="/">Home</NavLink></li>
     <li><NavLink to="/send-parcel">Send Parcel</NavLink></li>
     <li><NavLink to="/coverage">Coverage</NavLink></li>
+    <li><NavLink to="/beArider">Be a Rider</NavLink></li>
   </>
 
 
@@ -35,14 +36,17 @@ export default function Navbar() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "I agree"
+      confirmButtonText: "Yes"
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
+          title: "Logout successfully.",
           icon: "success"
         });
+        logout()
+          .then(res => {
+            console.log(res)
+          })
       }
     });
   }
@@ -118,7 +122,7 @@ export default function Navbar() {
 
                       {open && (
                         <div className="absolute right-1 top-14 w-52 bg-[#EAECED] text-black p-4 shadow rounded-md flex flex-col ">
-                          
+
                           <Link className="btn bg-[#F4AE33]" to="/dashboard">Dashboard</Link>
                           <button
                             onClick={handleLogout}

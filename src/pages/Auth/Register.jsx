@@ -5,6 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import GoogleLogin from '../../components/GoogleLogin';
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Register = () => {
 
@@ -12,25 +14,54 @@ const Register = () => {
 
     const location = useLocation()
     const navigate = useNavigate()
+    const axiosSecure = useAxiosSecure()
+
+    const { createUser, updateUser } = useAuth()
 
     const { handleSubmit, register, formState: { errors } } = useForm()
 
-    const onSubmit = (data) => {
+    const handleRegister = (data) => {
         const { name, email, password, confirmPassword, photo } = data
-        console.log(data)
 
         const profileImage = data.photo[0]
 
-        // inside ta registerAuthFuncito
-        const formData = new FormData()
-        formData.append('image', profileImage)
-        const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
-        axios.post(image_API_URL, formData)
-            .then(res => {
-                console.log(res.data.data.url)
+        createUser(email, password)
+            .then(() => {
+
+                const formData = new FormData()
+                formData.append('image', profileImage)
+
+                const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+
+                axios.post(image_API_URL, formData)
+                    .then(res => {
+                        const photoUrl = res.data.data.url
+
+                        const userProfile = {
+                            dsplayName: name,
+                            photoURL: photoUrl
+                        }
+
+                        updateUser(userProfile)
+
+                        const userInfo = {
+                            displayName: name,
+                            email: email,
+                            photoURL: photoUrl
+                        }
+
+                        axiosSecure.post("/users", userInfo)
+                    })
+
+
+
+                navigate(location?.state || '/')
             })
-            
-            navigate(location?.state || '/')
+            .catch(err => {
+                console.log(err)
+            })
+
+
     }
 
 
@@ -53,7 +84,7 @@ const Register = () => {
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 pt-4 font-exo">Create Account</h2>
                     </div>
 
-                    <form onSubmit={handleSubmit(onSubmit)}
+                    <form onSubmit={handleSubmit(handleRegister)}
                         className="space-y-4">
 
                         {/* NAME */}
@@ -66,7 +97,7 @@ const Register = () => {
                                 className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="Your name"
                             />
-                            {errors.name?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please enter your name</p>)}
+                            {errors.name?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your name</p>)}
                         </div>
 
                         {/* EMAIL */}
@@ -79,7 +110,7 @@ const Register = () => {
                                 className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="Your email"
                             />
-                            {errors.email?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please enter your email</p>)}
+                            {errors.email?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your email</p>)}
                         </div>
 
                         {/* PHOTO */}
@@ -106,7 +137,7 @@ const Register = () => {
                                     className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="••••••••"
                                 />
-                                {errors.password?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please enter your password</p>)}
+                                {errors.password?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your password</p>)}
                                 {errors.password?.type === 'minLength' && (<p className='text-red-500 text-lg font-semibold'>Password must be 6 characters or longer</p>)}
                                 {errors.password?.type === 'pattern' && (<p className='text-red-500 text-lg font-semibold'>Password must contain at least 1 uppercase, 1 lowercase, and 1 number</p>)}
                                 <button

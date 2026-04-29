@@ -1,25 +1,36 @@
 import { motion } from 'framer-motion';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUserCircle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import GoogleLogin from '../../components/GoogleLogin';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { handleSubmit, register } = useForm()
+    const { handleSubmit, register, formState: { errors } } = useForm()
 
     const navigate = useNavigate()
+    const { login } = useAuth()
 
-    const onSubmit = (data) => {
+    const handleLogin = (data) => {
         const { email, password } = data
+
+        login(email, password)
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
     }
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center">
             <motion.div
-            initial={{ y: -100, opacity: 0 }}
+                initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{
                     type: "spring",
@@ -34,38 +45,32 @@ const Login = () => {
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mt-2">Welcome Back</h2>
                     </div>
 
-                    <form onSubmit={handleSubmit(onSubmit)}
+                    <form onSubmit={handleSubmit(handleLogin)}
                         className="space-y-4">
                         <div>
-                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">
-                               
-                                Email
+                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Email
                             </label>
                             <input
                                 type="email"
-                                {...register('email')}
+                                {...register('email', { required: true })}
                                 className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="you@example.com"
-                                required
                             />
+                            {errors.email?.type==='required'&&(<p className='text-red-500 text-lg font-semibold'>Please add your email</p>)}
                         </div>
 
                         <div>
                             <div className="flex justify-between items-center">
-                                <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">
-                                   
-                                    Password
-                                </label>
+                                <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Password</label>
                             </div>
-
                             <div className="relative">
                                 <input
-                                    {...register('password')}
+                                    {...register('password',{required:true})}
                                     type={showPassword ? 'text' : 'password'}
                                     className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="••••••••"
-                                    required
                                 />
+                                {errors.password?.type==='required'&&(<p className='text-red-500 text-lg font-semibold'>Please add your login password</p>)}
                                 <button
                                     type="button"
                                     className="absolute top-4 right-3 cursor-pointer bg-[#FF02CB] p-1 rounded-full text-white"
