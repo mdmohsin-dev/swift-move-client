@@ -41,7 +41,9 @@ export default function Navbar() {
       if (result.isConfirmed) {
         Swal.fire({
           title: "Logout successfully.",
-          icon: "success"
+          icon: "success",
+          showConfirmButton:false,
+          timer:1500
         });
         logout()
           .then(res => {

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { FaUserShield, FaUserSlash } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
@@ -7,10 +7,12 @@ import Swal from 'sweetalert2';
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure()
 
+    const [searchText, setSearchText] = useState('')
+
     const { data: users = [], refetch } = useQuery({
-        queryKey: ['users'],
+        queryKey: ['users',searchText],
         queryFn: async () => {
-            const result = await axiosSecure.get("/users")
+            const result = await axiosSecure.get(`/users?searchText=${searchText}`)
             return result.data
         }
     })
@@ -33,7 +35,7 @@ const AllUsers = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axiosSecure.patch(`/users/${user._id}`, roleInfo)
+                axiosSecure.patch(`/users/${user._id}/role`, roleInfo)
                     .then(res => {
                         if (res.data.modifiedCount) {
                             Swal.fire({
@@ -55,6 +57,14 @@ const AllUsers = () => {
     return (
         <div className='text-black'>
             <h1 className="text-7xl">All users: {users.length}</h1>
+            <p>{searchText}</p>
+            <div className="md:mt-12 mt-7">
+                    <div onChange={(e) => setSearchText(e.target.value)} className="border border-gray-300 max-w-md flex justify-between">
+                        <input name="location"
+                            className="input focus:outline-none border-none w-full" placeholder="Search by district" type="text" />
+                    </div>
+            </div>
+
             <div>
                 <div className="overflow-x-auto">
                     <table className="table table-zebra">
@@ -76,7 +86,7 @@ const AllUsers = () => {
                                             <img className='w-12 h-12 rounded-full' src={user.photoURL} alt="" />
                                             <div>
                                                 <p className='text-xl font-medium'>{user.displayName}</p>
-                                                <p className='text-lg'>{user.role}</p>
+                                                <p className='text-lg text-green-600 font-semibold'>{user.role}</p>
                                             </div>
                                         </div>
                                     </td>

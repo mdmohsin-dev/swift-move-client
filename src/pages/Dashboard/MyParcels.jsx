@@ -30,6 +30,7 @@ const MyParcels = () => {
                             <th>Product Name</th>
                             <th>Reciver</th>
                             <th>Cost</th>
+                            <th>Tracking Id</th>
                             <th>Payment</th>
                             <th>Delivery Status</th>
                             <th>Actions</th>
@@ -43,9 +44,10 @@ const MyParcels = () => {
                                     <td>{parcel.parcelName}</td>
                                     <td>{parcel.recieverName}</td>
                                     <td>{parcel.cost}</td>
+                                    <td>{parcel.trackingId}</td>
                                     <td>{parcel.paymentStatus === 'paid' ? <span className='text-green-500 font-semibold text-lg'>Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`}
                                         className="btn btn-sm bg-blue-600 text-white">Pay Now</Link>}</td>
-                                    <td></td>
+                                    <td>{parcel.deliveryStatus}</td>
                                     <td className='flex gap-4 justify-between'>
 
                                         <button className='cursor-pointer'><FaPen size={20}></FaPen></button>

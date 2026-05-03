@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { TbTrashFilled } from "react-icons/tb";
@@ -45,7 +45,8 @@ const AllRiders = () => {
                                 <th></th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Status</th>
+                                <th>Application Status</th>
+                                <th>Work Status</th>
                                 <th>District</th>
                                 <th>Phone</th>
                                 <th>Actions</th>
@@ -70,6 +71,7 @@ const AllRiders = () => {
                                             </p>
                                         }
                                     </td>
+                                    <td>{rider.workStatus}</td>
                                     <td>{rider.district}</td>
                                     <td>{rider.phoneNumber}</td>
                                     <td className="flex gap-8">

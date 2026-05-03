@@ -15,8 +15,10 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
 import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
-import AllRiders from "../pages/Dashboard/AllRiders";
+import AllRiders from "../pages/Dashboard/Rider/AllRiders";
 import AllUsers from "../pages/Dashboard/AllUsers";
+import AdminRoute from "./AdminRoute";
+import AssignRider from "../pages/Dashboard/Rider/AssignRider";
 
 export const router = createBrowserRouter([
     {
@@ -92,7 +94,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "allUsers",
-                Component: AllUsers
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+            },
+            {
+                path:"assignRider",
+                element:<AdminRoute><AssignRider></AssignRider></AdminRoute>
             }
         ]
     }

@@ -4,11 +4,11 @@ import logo from "../assets/courier-logo.png"
 import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
 import { MdBarChart, MdDirectionsBike, MdPayment } from "react-icons/md";
 import { HiUsers } from "react-icons/hi";
+import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
 import useRole from "../hooks/useRole";
 
 export default function DashboardLayout() {
     const { role } = useRole();
-    console.log(role)
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
@@ -240,6 +240,14 @@ export default function DashboardLayout() {
                             label="All Users"
                             to="/dashboard/allUsers"
                         />
+                    )}
+
+                    {role === 'admin' &&(
+                        <NavItem
+                        icon={<RiEBikeFill></RiEBikeFill>}
+                        label="Assign Rider"
+                        to="/dashboard/assignRider"
+                        ></NavItem>
                     )}
 
                 </nav>
