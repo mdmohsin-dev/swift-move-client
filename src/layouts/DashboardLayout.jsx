@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/courier-logo.png"
 import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
-import { MdBarChart, MdDirectionsBike, MdPayment, MdTaskAlt } from "react-icons/md";
+import { MdBarChart, MdDashboard, MdDirectionsBike, MdPayment, MdTaskAlt } from "react-icons/md";
 import { HiUsers } from "react-icons/hi";
 import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
 import useRole from "../hooks/useRole";
@@ -205,6 +205,14 @@ export default function DashboardLayout() {
 
 
                 <nav className="flex-1 py-4 space-y-3 px-2 overflow-hidden">
+
+
+                  
+                        <NavItem
+                            icon={<MdDashboard size={20} />}
+                            label="Dashboard"
+                            to="/dashboard"
+                        />
 
 
                     {(role === 'user' || role === 'admin') && (

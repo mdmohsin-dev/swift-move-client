@@ -10,7 +10,7 @@ import PrivetRoute from "./PrivetRoute";
 import SendParcel from "../pages/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels";
-import DashboardHome from "../pages/Dashboard/DashboardHome";
+import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
