@@ -15,7 +15,11 @@ const Reviews = ({ reviewsPromis }) => {
                 effect={'coverflow'}
                 grabCursor={true}
                 centeredSlides={true}
-                slidesPerView={3}
+                loop={true}
+                autoplay={{
+                    delay: 2000,
+                    disableOnInteraction: false
+                }}
                 coverflowEffect={{
                     rotate: 50,
                     stretch: 0,
@@ -23,19 +27,26 @@ const Reviews = ({ reviewsPromis }) => {
                     modifier: 1,
                     slideShadows: true,
                 }}
-                loop={true}
-                autoplay={{
-                    delay: 2000,
-                    disableOnInteraction: false
+                breakpoints={{
+                    0: {
+                        slidesPerView: 1,
+                    },
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    },
                 }}
-                modules={[EffectCoverflow,Autoplay]}
+                modules={[EffectCoverflow, Autoplay]}
                 className="mySwiper"
             >
                 {
-                    reviews.map(review => <SwiperSlide>
-                        <ReviewCard review={review}></ReviewCard>
-                    </SwiperSlide>)
-
+                    reviews.map((review, index) => (
+                        <SwiperSlide key={index}>
+                            <ReviewCard review={review} />
+                        </SwiperSlide>
+                    ))
                 }
             </Swiper>
         </div>

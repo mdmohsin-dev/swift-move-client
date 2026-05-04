@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query'
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -44,7 +43,7 @@ const MyParcels = () => {
                                     <td>{parcel.parcelName}</td>
                                     <td>{parcel.recieverName}</td>
                                     <td>{parcel.cost}</td>
-                                    <td>{parcel.trackingId}</td>
+                                    <td><Link to={`/parcel-track/${parcel.trackingId}`}>{parcel.trackingId}</Link></td>
                                     <td>{parcel.paymentStatus === 'paid' ? <span className='text-green-500 font-semibold text-lg'>Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`}
                                         className="btn btn-sm bg-blue-600 text-white">Pay Now</Link>}</td>
                                     <td>{parcel.deliveryStatus}</td>

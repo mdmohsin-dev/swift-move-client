@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/courier-logo.png"
 import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
-import { MdBarChart, MdDirectionsBike, MdPayment } from "react-icons/md";
+import { MdBarChart, MdDirectionsBike, MdPayment, MdTaskAlt } from "react-icons/md";
 import { HiUsers } from "react-icons/hi";
 import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
 import useRole from "../hooks/useRole";
@@ -242,16 +242,31 @@ export default function DashboardLayout() {
                         />
                     )}
 
-                    {role === 'admin' &&(
+                    {role === 'admin' && (
                         <NavItem
-                        icon={<RiEBikeFill></RiEBikeFill>}
-                        label="Assign Rider"
-                        to="/dashboard/assignRider"
+                            icon={<RiEBikeFill></RiEBikeFill>}
+                            label="Assign Rider"
+                            to="/dashboard/assignRider"
+                        ></NavItem>
+                    )}
+
+                    {role === 'rider' && (
+                        <NavItem
+                            icon={<RiEBikeFill></RiEBikeFill>}
+                            label="Assigned Delivery"
+                            to="/dashboard/assignedDelivery"
+                        ></NavItem>
+                    )}
+
+                    {role === 'rider' && (
+                        <NavItem
+                            icon={<MdTaskAlt></MdTaskAlt>}
+                            label="Completed Delivery"
+                            to="/dashboard/completed-delivery"
                         ></NavItem>
                     )}
 
                 </nav>
-
 
 
                 <div className="border-t border-gray-800/60 p-3">

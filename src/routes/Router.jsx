@@ -19,6 +19,10 @@ import AllRiders from "../pages/Dashboard/Rider/AllRiders";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import AdminRoute from "./AdminRoute";
 import AssignRider from "../pages/Dashboard/Rider/AssignRider";
+import AssignedDelivery from "../pages/Dashboard/Rider/AssignedDelivery";
+import RiderRoute from "./RiderRoute";
+import ComplatedDelivery from "../pages/Dashboard/Rider/ComplatedDelivery";
+import ParcelTrack from "../pages/ParcelTrack";
 
 export const router = createBrowserRouter([
     {
@@ -43,6 +47,10 @@ export const router = createBrowserRouter([
                 path: "send-parcel",
                 element: <PrivetRoute><SendParcel></SendParcel></PrivetRoute>,
                 loader: () => fetch("/serviceCenter.json").then(res => res.json())
+            },
+            {
+                path: 'parcel-track/:trackingId',
+                Component: ParcelTrack
             }
         ]
     },
@@ -97,8 +105,16 @@ export const router = createBrowserRouter([
                 element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
             },
             {
-                path:"assignRider",
-                element:<AdminRoute><AssignRider></AssignRider></AdminRoute>
+                path: "assignRider",
+                element: <AdminRoute><AssignRider></AssignRider></AdminRoute>
+            },
+            {
+                path: "assignedDelivery",
+                element: <RiderRoute><AssignedDelivery></AssignedDelivery></RiderRoute>
+            },
+            {
+                path: "completed-delivery",
+                element: <RiderRoute><ComplatedDelivery></ComplatedDelivery></RiderRoute>
             }
         ]
     }

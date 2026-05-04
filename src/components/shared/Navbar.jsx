@@ -18,6 +18,7 @@ export default function Navbar() {
     <li><NavLink to="/send-parcel">Send Parcel</NavLink></li>
     <li><NavLink to="/coverage">Coverage</NavLink></li>
     <li><NavLink to="/beArider">Be a Rider</NavLink></li>
+    <li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>
   </>
 
 
