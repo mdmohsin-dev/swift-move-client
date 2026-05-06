@@ -1,7 +1,7 @@
 import { PiTruckTrailer } from "react-icons/pi";
 import { GiReceiveMoney } from "react-icons/gi";
 
-const HoWorks = () => {
+const HowWorks = () => {
 
     const worksProcessing = [
         {
@@ -31,13 +31,13 @@ const HoWorks = () => {
     ]
 
     return (
-        <div className="max-w-350 mx-auto mt-24">
-            <h3 className="text-3xl font-semibold">How it Works</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8 gap-6">
+        <div className="max-w-350 w-11/12 mx-auto mt-24">
+            <h3 className="text-4xl text-[#104a51] font-bold">How it Works</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-8 gap-6">
                 {
-                    worksProcessing.map(work => <div className="bg-white rounded-2xl flex flex-col gap-5 p-7">
+                    worksProcessing.map(work => <div className="bg-white hover:bg-[#CAEB66] rounded-2xl flex flex-col gap-5 p-7 transition-all duration-500">
                         {work.icon}
-                        <h3 className="text-xl text-[#03373D] font-semibold">{work.title}</h3>
+                        <h3 className="text-xl text-[#104a51] font-semibold">{work.title}</h3>
                         <p className="">{work.desc}</p>
                     </div>)
                 }
@@ -47,4 +47,4 @@ const HoWorks = () => {
     );
 };
 
-export default HoWorks;
+export default HowWorks;

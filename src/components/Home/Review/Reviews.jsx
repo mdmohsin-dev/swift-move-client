@@ -10,7 +10,7 @@ import ReviewCard from './ReviewCard';
 const Reviews = ({ reviewsPromis }) => {
     const reviews = use(reviewsPromis)
     return (
-        <div className='max-w-350 mx-auto mt-40'>
+        <div className='max-w-350 w-11/12 mx-auto mt-40'>
             <Swiper
                 effect={'coverflow'}
                 grabCursor={true}

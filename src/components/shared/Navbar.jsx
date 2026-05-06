@@ -95,7 +95,7 @@ export default function Navbar() {
       `}</style>
 
       {/* NAVBAR */}
-      <nav className="navbar max-w-350 mx-auto ">
+      <nav className="navbar max-w-350  mx-auto ">
 
         <div className="w-full bg-white py-5 px-6 rounded-2xl">
           <div className="flex justify-between items-center w-full transition-all duration-500 ease-in-out">
