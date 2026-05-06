@@ -21,7 +21,7 @@ const services = [
         id: 3,
         icon: <FaBoxOpen size={38} color='purple' />,
         title: 'Fulfillment Solution',
-        desc: 'We deliver parcels within 24/72 hours in Dhaka, Chittagong, Sylhet, Khulna, and Rajshahi. Express delivery available in Dhaka within 4/6 hours from pick-up to drop-off.'
+        desc: 'We also offer customized service with inventory management support, online order processing, packaging, and after sales support.'
 
     },
     {
@@ -49,7 +49,7 @@ const services = [
 const OurServices = () => {
 
     return (
-        <div className='lg:max-w-350 w-11/12 mx-auto mt-28'>
+        <div className='lg:max-w-350 w-11/12 mx-auto mt-36'>
             <div className='text-center lg:w-8/12 w-11/12 mx-auto'>
                 <h3 className='text-4xl font-bold text-[#104a51]'>Our Services</h3>
                 <p className='pt-5'>Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.</p>

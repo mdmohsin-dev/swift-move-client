@@ -31,7 +31,7 @@ const HowWorks = () => {
     ]
 
     return (
-        <div className="max-w-350 w-11/12 mx-auto mt-24">
+        <div className="max-w-350 w-11/12 mx-auto mt-36">
             <h3 className="text-4xl text-[#104a51] font-bold">How it Works</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-8 gap-6">
                 {
