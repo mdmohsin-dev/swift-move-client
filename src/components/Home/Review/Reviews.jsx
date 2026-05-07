@@ -11,44 +11,52 @@ const Reviews = ({ reviewsPromis }) => {
     const reviews = use(reviewsPromis)
     return (
         <div className='max-w-350 w-11/12 mx-auto mt-40'>
-            <Swiper
-                effect={'coverflow'}
-                grabCursor={true}
-                centeredSlides={true}
-                loop={true}
-                autoplay={{
-                    delay: 2000,
-                    disableOnInteraction: false
-                }}
-                coverflowEffect={{
-                    rotate: 50,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: true,
-                }}
-                breakpoints={{
-                    0: {
-                        slidesPerView: 1,
-                    },
-                    640: {
-                        slidesPerView: 2,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                    },
-                }}
-                modules={[EffectCoverflow, Autoplay]}
-                className="mySwiper"
-            >
-                {
-                    reviews.map((review, index) => (
-                        <SwiperSlide key={index}>
-                            <ReviewCard review={review} />
-                        </SwiperSlide>
-                    ))
-                }
-            </Swiper>
+
+            <div className='text-center lg:w-8/12 w-full mx-auto'>
+                <h3 className='text-4xl text-[#104a51] font-bold'>What our customers are sayings</h3>
+                <p className='pt-5'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
+            </div>
+
+            <div className='mt-16'>
+                <Swiper
+                    effect={'coverflow'}
+                    grabCursor={true}
+                    centeredSlides={true}
+                    loop={true}
+                    autoplay={{
+                        delay: 2000,
+                        disableOnInteraction: false
+                    }}
+                    coverflowEffect={{
+                        rotate: 50,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true,
+                    }}
+                    breakpoints={{
+                        0: {
+                            slidesPerView: 1,
+                        },
+                        640: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                    }}
+                    modules={[EffectCoverflow, Autoplay]}
+                    className="mySwiper"
+                >
+                    {
+                        reviews.map((review, index) => (
+                            <SwiperSlide key={index}>
+                                <ReviewCard review={review} />
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
+            </div>
         </div>
     );
 };
