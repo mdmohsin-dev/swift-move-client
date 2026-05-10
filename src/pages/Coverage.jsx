@@ -22,7 +22,7 @@ const Coverage = () => {
     }
 
     return (
-        <div className="max-w-350 mx-auto bg-white rounded-3xl md:p-10  p-6 mt-8">
+        <div className="max-w-350 w-11/12 mx-auto bg-white rounded-3xl md:p-10  p-6 mt-8">
             <h3 className="lg:text-[56px] text-4xl font-bold">We are available in 64 districts</h3>
             <div className="md:mt-12 mt-7">
                 <form onSubmit={handleSearch}>

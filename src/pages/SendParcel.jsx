@@ -87,7 +87,7 @@ const SendParcel = () => {
 
 
     return (
-        <div className='max-w-350 mx-auto bg-white rounded-3xl mt-14 p-12'>
+        <div className='max-w-350 w-11/12 mx-auto bg-white rounded-3xl mt-14 p-12'>
             <div>
                 <form onSubmit={handleSubmit(handleSendParcel)}
                     className="space-y-4">

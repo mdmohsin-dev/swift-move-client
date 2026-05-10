@@ -14,7 +14,7 @@ const Footer = () => {
     </>
 
     return (
-        <div className='bg-black text-white max-w-350 w-11/12 mx-auto py-16 px-20 rounded-3xl flex flex-col justify-center items-center gap-10 text-center mt-32'>
+        <div className='bg-black text-white max-w-350 w-11/12 mx-auto py-16 md:px-20 p-6 rounded-3xl flex flex-col justify-center items-center gap-10 text-center mt-32'>
             <div className='flex flex-col justify-center items-center'>
                 <Link to="/" className="flex items-center gap-1">
                     <img src={logo} className="w-10" alt="" />

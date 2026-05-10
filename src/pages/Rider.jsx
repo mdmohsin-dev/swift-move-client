@@ -3,6 +3,7 @@ import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAuth from '../hooks/useAuth';
 import useAxiosSecure from '../hooks/useAxiosSecure';
+import riderImg from "../assets/deliveryMan.png"
 
 const Rider = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
@@ -41,9 +42,9 @@ const Rider = () => {
 
 
     return (
-        <div className='max-w-350 mx-auto bg-white rounded-3xl mt-14 p-12'>
-            <div className='flex'>
-                <div className='w-full'>
+        <div className='max-w-350 w-11/12 mx-auto bg-white rounded-3xl mt-14 p-5 md:p-12'>
+            <div className='flex flex-col-reverse lg:flex-row justify-between items-center xl:gap-0 gap-10 lg:gap-4'>
+                <div className='lg:w-1/2 w-full'>
                     <form onSubmit={handleSubmit(handleSaveRider)}
                         className="space-y-4">
 
@@ -164,8 +165,8 @@ const Rider = () => {
                         </button>
                     </form>
                 </div>
-                <div className='w-full'>
-
+                <div>
+                    <img src={riderImg} alt="" />
                 </div>
             </div>
         </div>
