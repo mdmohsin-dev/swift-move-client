@@ -56,7 +56,7 @@ const AllUsers = () => {
 
     return (
         <div className='text-black'>
-            <h1 className="text-7xl">All users: {users.length}</h1>
+            <h1 className="text-7xl">All users</h1>
             <p>{searchText}</p>
             <div className="md:mt-12 mt-7">
                     <div onChange={(e) => setSearchText(e.target.value)} className="border border-gray-300 max-w-md flex justify-between">

@@ -8,6 +8,7 @@ import {
     Tooltip,
     Legend
 } from "recharts";
+import CountUser from '../../../components/CountUser';
 
 
 const AdminDashboardHome = () => {
@@ -26,16 +27,6 @@ const AdminDashboardHome = () => {
             return result.data;
         }
     });
-
-
-    // GET COUNT BY STATUS
-    const getStatusCount = (status) => {
-
-        return deliveryStats.find(
-            item => item._id === status
-        )?.count || 0;
-
-    }
 
 
     if (isLoading) {
@@ -59,54 +50,7 @@ const AdminDashboardHome = () => {
 
     return (
         <div>
-
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-10'>
-
-                <div className='bg-yellow-100 p-6 rounded-xl shadow'>
-                    <h2 className='text-xl font-bold text-black'>
-                        Pending
-                    </h2>
-
-                    <p className='text-4xl font-bold text-yellow-600 mt-2'>
-                        {getStatusCount('pending-pickup')}
-                    </p>
-                </div>
-
-
-                <div className='bg-blue-100 p-6 rounded-xl shadow'>
-                    <h2 className='text-xl font-bold text-black'>
-                        Assigned
-                    </h2>
-
-                    <p className='text-4xl font-bold text-blue-600 mt-2'>
-                        {getStatusCount('rider_assigned')}
-                    </p>
-                </div>
-
-
-                <div className='bg-purple-100 p-6 rounded-xl shadow'>
-                    <h2 className='text-xl font-bold text-black'>
-                        In Transit
-                    </h2>
-
-                    <p className='text-4xl font-bold text-purple-600 mt-2'>
-                        {getStatusCount('in-transit')}
-                    </p>
-                </div>
-
-
-                <div className='bg-green-100 p-6 rounded-xl shadow'>
-                    <h2 className='text-xl font-bold text-black'>
-                        Delivered
-                    </h2>
-
-                    <p className='text-4xl font-bold text-green-600 mt-2'>
-                        {getStatusCount('parcel_delivered')}
-                    </p>
-                </div>
-
-            </div>
-
+<CountUser/>
             <div className='w-full h-[400px]'>
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
