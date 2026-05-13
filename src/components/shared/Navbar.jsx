@@ -43,12 +43,12 @@ export default function Navbar() {
         Swal.fire({
           title: "Logout successfully.",
           icon: "success",
-          showConfirmButton:false,
-          timer:1500
+          showConfirmButton: false,
+          timer: 1500
         });
         logout()
-          .then(res => {
-            console.log(res)
+          .then((res) => {
+
           })
       }
     });

@@ -18,9 +18,7 @@ const Login = () => {
         const { email, password } = data
 
         login(email, password)
-            .then(result => {
-                console.log(result.user)
-            })
+            .then((result) => {  })
             .catch(err => {
                 console.log(err)
             })
@@ -56,7 +54,7 @@ const Login = () => {
                                 className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="you@example.com"
                             />
-                            {errors.email?.type==='required'&&(<p className='text-red-500 text-lg font-semibold'>Please add your email</p>)}
+                            {errors.email?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your email</p>)}
                         </div>
 
                         <div>
@@ -65,12 +63,12 @@ const Login = () => {
                             </div>
                             <div className="relative">
                                 <input
-                                    {...register('password',{required:true})}
+                                    {...register('password', { required: true })}
                                     type={showPassword ? 'text' : 'password'}
                                     className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="••••••••"
                                 />
-                                {errors.password?.type==='required'&&(<p className='text-red-500 text-lg font-semibold'>Please add your login password</p>)}
+                                {errors.password?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your login password</p>)}
                                 <button
                                     type="button"
                                     className="absolute top-4 right-3 cursor-pointer bg-[#CAEB66] p-1 rounded-full text-black"
