@@ -11,7 +11,7 @@ const GoogleLogin = () => {
             .then(result => {
 
                 const userInfo = {
-                    dsplayName: result.user.displayName,
+                    displayName: result.user.displayName,
                     email: result.user.email,
                     photoURL: result.user.photoURL
                 }

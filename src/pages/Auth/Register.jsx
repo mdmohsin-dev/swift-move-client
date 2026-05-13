@@ -20,50 +20,51 @@ const Register = () => {
 
     const { handleSubmit, register, formState: { errors } } = useForm()
 
-    const handleRegister = (data) => {
-        const { name, email, password, confirmPassword, photo } = data
+  const handleRegister = async (data) => {
+
+    try {
+
+        const { name, email, password } = data
 
         const profileImage = data.photo[0]
 
-        createUser(email, password)
-            .then(() => {
+        // create user
+        await createUser(email, password)
 
-                const formData = new FormData()
-                formData.append('image', profileImage)
+        // image upload
+        const formData = new FormData()
+        formData.append('image', profileImage)
 
-                const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+        const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
 
-                axios.post(image_API_URL, formData)
-                    .then(res => {
-                        const photoUrl = res.data.data.url
+        const res = await axios.post(image_API_URL, formData)
 
-                        const userProfile = {
-                            dsplayName: name,
-                            photoURL: photoUrl
-                        }
+        const photoUrl = res.data.data.url
 
-                        updateUser(userProfile)
+        // update profile
+        const userProfile = {
+            displayName: name,
+            photoURL: photoUrl
+        }
 
-                        const userInfo = {
-                            displayName: name,
-                            email: email,
-                            photoURL: photoUrl
-                        }
+        await updateUser(userProfile)
 
-                        axiosSecure.post("/users", userInfo)
-                    })
+        // save user in db
+        const userInfo = {
+            displayName: name,
+            email,
+            photoURL: photoUrl
+        }
 
+        await axiosSecure.post('/users', userInfo)
 
-
-                navigate(location?.state || '/')
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
+        navigate(location?.state || '/')
 
     }
-
+    catch (err) {
+        console.log(err)
+    }
+}
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center">
@@ -79,7 +80,7 @@ const Register = () => {
 
                 className="w-[90%] md:w-[70%] max-w-md"
             >
-                <div className="bg-white text-black rounded-2xl shadow-xl p-10">
+                <div className="bg-white text-black rounded-2xl shadow-xl p-5 md:p-10">
                     <div className="flex flex-col items-center mb-6">
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 pt-4 font-exo">Create Account</h2>
                     </div>

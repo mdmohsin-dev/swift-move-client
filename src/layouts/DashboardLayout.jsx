@@ -206,16 +206,13 @@ export default function DashboardLayout() {
 
                 <nav className="flex-1 py-4 space-y-3 px-2 overflow-hidden">
 
-
-                  
                         <NavItem
                             icon={<MdDashboard size={20} />}
                             label="Dashboard"
                             to="/dashboard"
                         />
 
-
-                    {(role === 'user' || role === 'admin') && (
+                    {(role === 'user') && (
                         <NavItem
                             icon={<FaBoxOpen size={20} />}
                             label="My Parcels"
@@ -224,7 +221,7 @@ export default function DashboardLayout() {
                     )}
 
 
-                    {(role === "user" || role === "admin") && (
+                    {(role === "user") && (
                         <NavItem
                             icon={<MdPayment size={20} />}
                             label="Payment History"

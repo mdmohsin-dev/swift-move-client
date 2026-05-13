@@ -9,28 +9,11 @@ const Payment = () => {
 
     const axiosSecure = useAxiosSecure()
 
-    const { data: parcel = [] } = useQuery({
-        queryKey: ['parcle', parcelId],
-        queryFn: async () => {
-            const result = await axiosSecure.get(`/parcels/${parcelId}`)
-            return result.data
-        }
-    })
+ 
 
 
 
-    const handlePayment = async () => {
-        const paymentInfo = {
-            parcelId: parcel._id,
-            parcelName: parcel.parcelName,
-            cost: parcel.cost,
-            senderEmail: parcel.senderEmail,
-            trackingId: parcel.trackingId
-        }
-        const result = await axiosSecure.post('/create-checkout-session', paymentInfo)
-        console.log(result.data)
-        window.location.href = result.data.url
-    }
+  
 
     return (
         <div>

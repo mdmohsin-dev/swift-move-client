@@ -19,10 +19,12 @@ const PaymentSuccess = () => {
         }
     }, [])
     return (
-        <div className='text-black'>
-            <h2 className="text-4xl">Payment success</h2>
-            <p>Your transactionId:{paymentIfno.transactionId}</p>
+        <div className='text-black absolute flex left-1/2 top-1/2'>
+            <div>
+                <h2 className="text-4xl">Payment success</h2>
+            <p className='py-4'>Your transactionId:{paymentIfno.transactionId}</p>
             <p>Your trackingId:{paymentIfno.trackingId}</p>
+            </div>
         </div>
     );
 };

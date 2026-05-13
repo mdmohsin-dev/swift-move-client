@@ -40,7 +40,7 @@ const Login = () => {
                 }}
                 className="w-[90%] md:w-[70%] max-w-md"
             >
-                <div className="bg-white text-black rounded-2xl shadow-xl p-10">
+                <div className="bg-white text-black rounded-2xl shadow-xl p-5 md:p-10">
                     <div className="flex flex-col items-center mb-6">
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mt-2">Welcome Back</h2>
                     </div>
@@ -73,7 +73,7 @@ const Login = () => {
                                 {errors.password?.type==='required'&&(<p className='text-red-500 text-lg font-semibold'>Please add your login password</p>)}
                                 <button
                                     type="button"
-                                    className="absolute top-4 right-3 cursor-pointer bg-[#FF02CB] p-1 rounded-full text-white"
+                                    className="absolute top-4 right-3 cursor-pointer bg-[#CAEB66] p-1 rounded-full text-black"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
                                     {showPassword ? <FaEye /> : <FaEyeSlash />}
@@ -83,7 +83,7 @@ const Login = () => {
 
                         <button
                             type="submit"
-                            className="w-full bg-red-500 hover:bg-black hover:scale-105 text-white md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer"
+                            className="w-full bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer"
                         >
                             Login
                         </button>
