@@ -9,6 +9,7 @@ import {
     Legend
 } from "recharts";
 import CountUser from '../../../components/CountUser';
+import PendingRiders from '../../../components/PendingRiders';
 
 
 const AdminDashboardHome = () => {
@@ -50,7 +51,10 @@ const AdminDashboardHome = () => {
 
     return (
         <div>
-<CountUser/>
+            <CountUser />
+
+<PendingRiders/>
+
             <div className='w-full h-[400px]'>
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>

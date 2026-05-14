@@ -62,7 +62,7 @@ const AssignRider = () => {
 
     return (
         <div className=' text-black'>
-            <h1 className='text-7xl'>Assgin rider{parcels.length} </h1>
+            <h1 className='text-7xl'>Assgin rider</h1>
 
             <div>
                 <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
