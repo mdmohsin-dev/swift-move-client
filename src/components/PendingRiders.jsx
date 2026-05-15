@@ -9,36 +9,36 @@ const PendingRiders = () => {
 
     const axiosSecure = useAxiosSecure()
 
-    const { data: pendingRiders = [],refetch } = useQuery({
+    const { data: pendingRiders = [], refetch } = useQuery({
         queryKey: ['pending-riders'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/riders?workStatus=pending')
+            const res = await axiosSecure.get('/riders?status=pending')
             return res.data
         }
     })
 
-     const handleApproval = (rider, status) => {
-            const updatInfo = { status: status, email: rider.email }
-            axiosSecure.patch(`/riders/${rider._id}`, updatInfo)
-                .then(res => {
-                    if (res.data.modifiedCount) {
-                        Swal.fire({
-                            position: "top-center",
-                            icon: "success",
-                            title: `Rider ${status === 'approved' ? 'Approved' : 'Rejected'} Successfully`,
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        refetch()
-                    }
-                })
-        }
+    const handleApproval = (rider, status) => {
+        const updatInfo = { status: status, email: rider.email }
+        axiosSecure.patch(`/riders/${rider._id}`, updatInfo)
+            .then(res => {
+                if (res.data.modifiedCount) {
+                    Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: `Rider ${status === 'approved' ? 'Approved' : 'Rejected'} Successfully`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refetch()
+                }
+            })
+    }
 
     return (
-        <div>
-            <div className="overflow-x-auto text-black">
+        <div className="w-full">
+            {
+                pendingRiders.length < 1 ? '' : <div className="overflow-x-auto text-black mt-16 ml-18">
                 <table className="table table-zebra">
-
                     <thead>
                         <tr>
                             <th></th>
@@ -83,6 +83,8 @@ const PendingRiders = () => {
                     </tbody>
                 </table>
             </div>
+            }
+            
         </div>
     );
 };

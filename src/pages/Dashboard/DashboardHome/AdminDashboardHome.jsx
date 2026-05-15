@@ -53,40 +53,41 @@ const AdminDashboardHome = () => {
         <div>
             <CountUser />
 
-<PendingRiders/>
+            <div className='flex items-start w-full'>
+                <div className='h-100 w-72 mt-16'>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Pie
+                                data={pieChartData}
+                                dataKey="value"
+                                nameKey="name"
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={120}
+                                label
+                            >
 
-            <div className='w-full h-[400px]'>
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie
-                            data={pieChartData}
-                            dataKey="value"
-                            nameKey="name"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={120}
-                            label
-                        >
+                                {
+                                    pieChartData.map((entry, index) => (
 
-                            {
-                                pieChartData.map((entry, index) => (
+                                        <Cell
+                                            key={index}
+                                            fill={
+                                                COLORS[index % COLORS.length]
+                                            }
+                                        />
 
-                                    <Cell
-                                        key={index}
-                                        fill={
-                                            COLORS[index % COLORS.length]
-                                        }
-                                    />
+                                    ))
+                                }
 
-                                ))
-                            }
+                            </Pie>
+                            <Tooltip />
+                            <Legend />
+                        </PieChart>
+                    </ResponsiveContainer>
 
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                    </PieChart>
-                </ResponsiveContainer>
-
+                </div>
+                <PendingRiders />
             </div>
 
         </div>

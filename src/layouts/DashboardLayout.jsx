@@ -39,7 +39,6 @@ export default function DashboardLayout() {
         }
     };
 
-
     const NavItem = ({ icon, label, to }) => (
         <NavLink
             to={to}
@@ -66,14 +65,36 @@ export default function DashboardLayout() {
         </NavLink>
     );
 
-
     return (
         <div
-            className="flex h-screen bg-gray-950 text-white overflow-hidden"
+            className={`layout-root flex h-screen bg-gray-950 text-white overflow-hidden ${!isExpanded ? "collapsed" : ""}`}
             style={{ fontFamily: "'DM Sans', sans-serif" }}
         >
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        .layout-root {
+          --sidebar-w: 270px;
+        }
+        .layout-root.collapsed {
+          --sidebar-w: 64px;
+        }
+
+        .sidebar-el {
+          width: var(--sidebar-w);
+          transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+          overflow: hidden;
+        }
+
+        .navbar-el {
+          left: var(--sidebar-w);
+          transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-el {
+          margin-left: var(--sidebar-w);
+          transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
         .sidebar-transition {
           transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -183,14 +204,8 @@ export default function DashboardLayout() {
                 />
             )}
 
-            {/* Sidebar */}
-            <aside
-                className={`sidebar-transition relative z-20 flex flex-col bg-gray-900 border-r border-gray-800/60 shrink-0
-          ${isMobile ? "absolute h-full" : "relative"}
-          ${isExpanded ? "w-[270px]" : "w-16"}
-        `}
-            >
-
+            {/* ✅ FIXED Sidebar */}
+            <aside className="sidebar-el fixed top-0 left-0 h-screen z-20 flex flex-col bg-gray-900 border-r border-gray-800/60 shrink-0">
                 <Link to="/dashboard"
                     className="flex items-center h-16 px-4 shrink-0">
                     <div className="w-11 h-11 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 shadow-lg">
@@ -203,14 +218,12 @@ export default function DashboardLayout() {
                     </span>
                 </Link>
 
-
                 <nav className="flex-1 py-4 space-y-3 px-2 overflow-hidden">
-
-                        <NavItem
-                            icon={<MdDashboard size={20} />}
-                            label="Dashboard"
-                            to="/dashboard"
-                        />
+                    <NavItem
+                        icon={<MdDashboard size={20} />}
+                        label="Dashboard"
+                        to="/dashboard"
+                    />
 
                     {(role === 'user') && (
                         <NavItem
@@ -220,7 +233,6 @@ export default function DashboardLayout() {
                         />
                     )}
 
-
                     {(role === "user") && (
                         <NavItem
                             icon={<MdPayment size={20} />}
@@ -229,7 +241,6 @@ export default function DashboardLayout() {
                         />
                     )}
 
-
                     {role === "admin" && (
                         <NavItem
                             icon={<MdDirectionsBike size={20} />}
@@ -237,7 +248,6 @@ export default function DashboardLayout() {
                             to="/dashboard/allRiders"
                         />
                     )}
-
 
                     {role === "admin" && (
                         <NavItem
@@ -249,30 +259,28 @@ export default function DashboardLayout() {
 
                     {role === 'admin' && (
                         <NavItem
-                            icon={<RiEBikeFill></RiEBikeFill>}
+                            icon={<RiEBikeFill />}
                             label="Assign Rider"
                             to="/dashboard/assignRider"
-                        ></NavItem>
+                        />
                     )}
 
                     {role === 'rider' && (
                         <NavItem
-                            icon={<RiEBikeFill></RiEBikeFill>}
+                            icon={<RiEBikeFill />}
                             label="Assigned Delivery"
                             to="/dashboard/assignedDelivery"
-                        ></NavItem>
+                        />
                     )}
 
                     {role === 'rider' && (
                         <NavItem
-                            icon={<MdTaskAlt></MdTaskAlt>}
+                            icon={<MdTaskAlt />}
                             label="Completed Delivery"
                             to="/dashboard/completed-delivery"
-                        ></NavItem>
+                        />
                     )}
-
                 </nav>
-
 
                 <div className="border-t border-gray-800/60 p-3">
                     <Link
@@ -289,10 +297,10 @@ export default function DashboardLayout() {
                 </div>
             </aside>
 
-
-            <div className="flex-1 flex flex-col min-w-0">
-
-                <header className="h-16 bg-gray-900/80 backdrop-blur border-b border-gray-800/60 flex items-center justify-between px-4 shrink-0">
+            {/* ✅ Main content area — offset by sidebar width via CSS variable */}
+            <div className="main-el flex-1 flex flex-col min-w-0">
+                {/* ✅ FIXED Top Navbar */}
+                <header className="navbar-el fixed top-0 right-0 h-16 bg-gray-900/80 backdrop-blur border-b border-gray-800/60 flex items-center justify-between px-4 z-10">
                     <button
                         onClick={handleToggle}
                         className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-indigo-600/30 border border-gray-700/60 hover:border-indigo-500/40 flex items-center justify-center text-gray-400 hover:text-indigo-300 transition-all duration-200"
@@ -330,14 +338,11 @@ export default function DashboardLayout() {
                     </div>
                 </header>
 
-
-                <main className="min-h-screen p-5 bg-white">
-                    <div>
-                        <Outlet />
-                    </div>
+                {/* ✅ Scrollable outlet area only */}
+                <main className="mt-16 flex-1 overflow-y-auto p-5 bg-white">
+                    <Outlet />
                 </main>
             </div>
-
 
             {tooltip.visible && !isExpanded && (
                 <div
