@@ -1,16 +1,77 @@
-# React + Vite
+# Swift Move
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Swift Move is a full-stack courier and parcel delivery management web application where users can send parcels, riders can manage deliveries, and admins can control the entire delivery workflow.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+# Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## User Features
+- User authentication
+- Send parcels with tracking ID
+- Track parcel delivery status
+- View active and delivered parcels
+- Apply to become a rider
+- User dashboard with statistics
 
-## Expanding the ESLint configuration
+## Rider Features
+- Accept or reject assigned parcels
+- Manage delivery tasks
+- Update parcel delivery status
+- Rider dashboard overview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Admin Features
+- Approve rider applications
+- Assign riders to parcels
+- Manage all parcels
+- View user and rider statistics
+- Dashboard analytics with charts
+
+---
+
+# Dashboard Highlights
+
+- Total Parcels
+- Active Parcels
+- Delivery Status Statistics
+- User & Rider Statistics
+- Parcel Analytics Chart
+- Recent Active Parcels Table
+
+---
+
+# Parcel Status Flow
+
+- pending-pickup
+- rider_assigned
+- in-transit
+- parcel_delivered
+- cancelled
+
+---
+
+# Technologies Used
+
+## Frontend
+- React
+- React Router
+- Tailwind CSS
+- DaisyUI
+- TanStack Query
+- Axios
+- Recharts
+- React Icons
+- Firebase Authentication
+
+## Backend
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
+- Firebase Admin SDK
+
+---
+
+# Live Links
+
