@@ -53,7 +53,7 @@ const AdminDashboardHome = () => {
         <div>
             <CountUser />
 
-            <div className='flex items-start w-full'>
+            <div className='flex flex-col xl:flex-row items-start w-full'>
                 <div className='h-100 w-72 mt-16'>
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>

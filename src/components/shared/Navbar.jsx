@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router";
 import logo from "../../assets/courier-logo.png"
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useRole from "../../hooks/useRole";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -12,13 +13,14 @@ export default function Navbar() {
   const sidebarRef = useRef(null);
 
   const { user, logout } = useAuth()
+  const role = useRole()
 
   const navLinks = <>
     <li><NavLink to="/">Home</NavLink></li>
-    <li><NavLink to="/send-parcel">Send Parcel</NavLink></li>
+    {role.role === 'user' && (<li><NavLink to="/send-parcel">Send Parcel</NavLink></li>)}
     <li><NavLink to="/coverage">Coverage</NavLink></li>
-    <li><NavLink to="/beArider">Be a Rider</NavLink></li>
-    <li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>
+    {role.role === 'user' && (<li><NavLink to="/beArider">Be a Rider</NavLink></li>)}
+    {role.role === 'user' && (<li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>)}
   </>
 
 
@@ -134,7 +136,7 @@ export default function Navbar() {
                       )}
                     </div>
                     :
-                    <Link to="/login" className="btn border-none bg-[#CAEB66] px-6 text-black">Login</Link>
+                    <Link to="/login" className="btn hidden md:flex border-none bg-[#CAEB66] px-6 text-black">Login</Link>
                 }
               </div>
 
@@ -171,15 +173,15 @@ export default function Navbar() {
           {navLinks}
         </ul>
 
-        <div>
-          {/* {
+        <div className="flex md:hidden">
+          {
             !user &&
             <button
               onClick={() => setSidebarOpen(false)}
             >
-              <Link to="/login" className="absolute bottom-4 btn bg-red-500 border-none flex gap-4 text-lg py-4 px-6 font-exo hover:rounded-3xl transition-all duration-500 hover:bg-black">Sign In</Link>
+              <Link to="/login" className="bottom-4 btn mt-6 bg-[#CAEB66] border-none flex gap-4 text-lg py-4 px-6 font-exo hover:rounded-3xl transition-all duration-500 hover:bg-black">Login</Link>
             </button>
-          } */}
+          }
         </div>
       </aside>
     </>

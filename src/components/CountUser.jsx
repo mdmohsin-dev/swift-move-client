@@ -57,7 +57,7 @@ const CountUser = () => {
     }
 
     return (
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-3 gap-4">
             <div className='bg-yellow-100 p-6 rounded-xl shadow'>
 
                 <h2 className='text-xl font-bold text-black flex items-center gap-2'>

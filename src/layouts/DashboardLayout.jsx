@@ -315,27 +315,6 @@ export default function DashboardLayout() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7M18 19l-7-7 7-7" />
                         </svg>
                     </button>
-
-                    <div className="flex items-center gap-3">
-                        <button className="w-9 h-9 rounded-lg bg-gray-800 border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V5a1 1 0 10-2 0v.083A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-
-                        <div className="flex items-center gap-2.5 bg-gray-800/80 border border-gray-700/60 rounded-xl px-3 py-1.5">
-                            <div className="w-7 h-7 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold shadow">
-                                RH
-                            </div>
-                            <div className="hidden sm:block">
-                                <p className="text-xs font-semibold text-white leading-tight">Rahim Hossain</p>
-                                <p className="text-[10px] text-gray-500 leading-tight">Admin</p>
-                            </div>
-                            <svg className="w-3 h-3 text-gray-500 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
-                    </div>
                 </header>
 
                 {/* ✅ Scrollable outlet area only */}

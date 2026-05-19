@@ -3,14 +3,16 @@ import React from 'react';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import { Link } from 'react-router';
 import { FaClockRotateLeft } from 'react-icons/fa6';
+import useAuth from '../hooks/useAuth';
 
 const ActiveParcels = () => {
 
     const axiosSecure = useAxiosSecure()
+    const user = useAuth()
 
     const { data: activeParcels = [] } = useQuery({
 
-        queryKey: ['active-parcels'],
+        queryKey: ['active-parcels',user?.email],
 
         queryFn: async () => {
             const res = await axiosSecure.get('/active-parcels');
