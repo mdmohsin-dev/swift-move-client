@@ -4,7 +4,7 @@ import RiderTotalEarnings from '../Rider/RiderTotalEarnings';
 
 const RiderDashboardHome = () => {
     return (
-         <div className='text-black'>
+         <div className='text-black grid grid-cols-4 gap-4'>
             <TodayDelivered/>
             <RiderTotalEarnings/>
         </div>

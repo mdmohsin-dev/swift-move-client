@@ -155,11 +155,11 @@ export default function Navbar() {
 
       <aside
         ref={sidebarRef}
-        className={`sidebar ${sidebarOpen ? " open" : ""} fixed w-72 h-dvh bg-[#EDE8E3] pl-4 pt-4 pr-2`}
+        className={`sidebar ${sidebarOpen ? " open" : ""} fixed w-72 h-dvh bg-[#EAECED] pl-4 pt-4 pr-2`}
         aria-hidden={!sidebarOpen}
       >
         <div className="flex text-black justify-between items-center">
-          <h3 className="text-3xl font-marker bg-linear-to-b from-black to-[#FF02CB] bg-clip-text text-transparent">SmartDeals</h3>
+          <h3 className="text-3xl font-marker bg-linear-to-b from-black to-[#FF02CB] bg-clip-text text-transparent">SwiftMove</h3>
           <button
             aria-label="Close"
             onClick={() => setSidebarOpen(false)}

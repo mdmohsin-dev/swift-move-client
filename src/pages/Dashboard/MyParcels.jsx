@@ -17,7 +17,7 @@ const MyParcels = () => {
             return result.data
         }
     })
-
+console.log(parcels)
 
     const handlePayment = async (parcel) => {
         const paymentInfo = {
