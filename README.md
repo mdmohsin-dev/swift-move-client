@@ -74,5 +74,5 @@ Swift Move is a full-stack courier and parcel delivery management web applicatio
 ---
 
 # Live Demo
-Live Site: https://swift-move-b007b.web.app/
-Backend Repository: https://github.com/mdmohsin-dev/swift-move-server
+- Live Site: https://swift-move-b007b.web.app/
+- Backend Repository: https://github.com/mdmohsin-dev/swift-move-server
