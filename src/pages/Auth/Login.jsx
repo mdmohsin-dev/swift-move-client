@@ -1,28 +1,46 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUserCircle } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link, useNavigate, useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
 import GoogleLogin from '../../components/GoogleLogin';
 import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
+    const axiosSecure = useAxiosSecure()
+
     const { handleSubmit, register, formState: { errors } } = useForm()
 
     const navigate = useNavigate()
+    const location = useLocation()
     const { login } = useAuth()
 
     const handleLogin = (data) => {
         const { email, password } = data
 
         login(email, password)
-            .then((result) => {  })
+            .then((result) => {
+                axiosSecure.get(`/users/${result.user.email}/role`)
+                    .then(res => {
+                        const role = res.data.role || 'user'
+                        const from = location.state
+
+                        const userOnlyPages = ['/send-parcel', '/beArider', '/dashboard/myParcels']
+
+                        const isRestricted = from &&
+                            role !== 'user' &&
+                            userOnlyPages.some(page => from.startsWith(page))
+
+                        const destination = (from && !isRestricted) ? from : "/"
+                        navigate(destination, { replace: true })
+                    })
+            })
             .catch(err => {
                 console.log(err)
             })
-
     }
 
     return (
@@ -93,7 +111,7 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-center items-center gap-1.5 mt-4">
-                        <p className="text-sm text-gray-700">Don’t have an account?</p>
+                        <p className="text-sm text-gray-700">Don't have an account?</p>
                         <Link
                             to="/register"
                             className="text-[#FF02CB] text-sm font-medium hover:text-[#FF0000] hover:underline hover:scale-105 transition"

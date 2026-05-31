@@ -4,7 +4,8 @@ import useAuth from './useAuth';
 import { useNavigate } from 'react-router';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://swift-move-server.vercel.app'
+    // baseURL: 'https://swift-move-server.vercel.app'
+    baseURL: 'http://localhost:3000'
 })
 
 const useAxiosSecure = () => {
