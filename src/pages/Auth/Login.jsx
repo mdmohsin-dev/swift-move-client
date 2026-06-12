@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FiLoader } from 'react-icons/fi';
 import { Link, useNavigate, useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
 import GoogleLogin from '../../components/GoogleLogin';
@@ -9,39 +10,46 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const axiosSecure = useAxiosSecure()
+    const axiosSecure = useAxiosSecure();
 
-    const { handleSubmit, register, formState: { errors } } = useForm()
+    const { handleSubmit, register, formState: { errors } } = useForm();
 
-    const navigate = useNavigate()
-    const location = useLocation()
-    const { login } = useAuth()
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { login } = useAuth();
 
     const handleLogin = (data) => {
-        const { email, password } = data
+        const { email, password } = data;
+        setLoading(true);
 
         login(email, password)
             .then((result) => {
                 axiosSecure.get(`/users/${result.user.email}/role`)
                     .then(res => {
-                        const role = res.data.role || 'user'
-                        const from = location.state
+                        const role = res.data.role || 'user';
+                        const from = location.state;
 
-                        const userOnlyPages = ['/send-parcel', '/beArider', '/dashboard/myParcels']
+                        const userOnlyPages = ['/send-parcel', '/beArider', '/dashboard/myParcels'];
 
                         const isRestricted = from &&
                             role !== 'user' &&
-                            userOnlyPages.some(page => from.startsWith(page))
+                            userOnlyPages.some(page => from.startsWith(page));
 
-                        const destination = (from && !isRestricted) ? from : "/"
-                        navigate(destination, { replace: true })
+                        const destination = (from && !isRestricted) ? from : '/';
+                        navigate(destination, { replace: true });
                     })
+                    .catch(err => {
+                        console.log(err);
+                        setLoading(false);
+                    });
             })
             .catch(err => {
-                console.log(err)
-            })
-    }
+                console.log(err);
+                setLoading(false);
+            });
+    };
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center">
@@ -61,18 +69,18 @@ const Login = () => {
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mt-2">Welcome Back</h2>
                     </div>
 
-                    <form onSubmit={handleSubmit(handleLogin)}
-                        className="space-y-4">
+                    <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
                         <div>
-                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Email
-                            </label>
+                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Email</label>
                             <input
                                 type="email"
                                 {...register('email', { required: true })}
                                 className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                 placeholder="you@example.com"
                             />
-                            {errors.email?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your email</p>)}
+                            {errors.email?.type === 'required' && (
+                                <p className='text-red-500 text-lg font-semibold'>Please add your email</p>
+                            )}
                         </div>
 
                         <div>
@@ -86,7 +94,9 @@ const Login = () => {
                                     className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:bg-black text-black focus:text-white focus:outline-none focus:ring-2 focus:ring-[#FF02CB]"
                                     placeholder="••••••••"
                                 />
-                                {errors.password?.type === 'required' && (<p className='text-red-500 text-lg font-semibold'>Please add your login password</p>)}
+                                {errors.password?.type === 'required' && (
+                                    <p className='text-red-500 text-lg font-semibold'>Please add your login password</p>
+                                )}
                                 <button
                                     type="button"
                                     className="absolute top-4 right-3 cursor-pointer bg-[#CAEB66] p-1 rounded-full text-black"
@@ -99,9 +109,14 @@ const Login = () => {
 
                         <button
                             type="submit"
-                            className="w-full bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer"
+                            disabled={loading}
+                            className="w-full bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
                         >
-                            Login
+                            {loading ? (
+                                <FiLoader className="animate-spin text-2xl" />
+                            ) : (
+                                'Login'
+                            )}
                         </button>
                     </form>
 

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { useContext, useState } from 'react';
-import { FaEye, FaEyeSlash, } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FiLoader } from 'react-icons/fi';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -11,6 +12,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 const Register = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -20,51 +22,42 @@ const Register = () => {
 
     const { handleSubmit, register, formState: { errors } } = useForm()
 
-  const handleRegister = async (data) => {
+    const handleRegister = async (data) => {
+        try {
+            setLoading(true)
 
-    try {
+            const { name, email, password } = data
+            const profileImage = data.photo[0]
 
-        const { name, email, password } = data
+            await createUser(email, password)
 
-        const profileImage = data.photo[0]
+            const formData = new FormData()
+            formData.append('image', profileImage)
 
-        // create user
-        await createUser(email, password)
+            const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+            const res = await axios.post(image_API_URL, formData)
+            const photoUrl = res.data.data.url
 
-        // image upload
-        const formData = new FormData()
-        formData.append('image', profileImage)
+            const userProfile = {
+                displayName: name,
+                photoURL: photoUrl
+            }
+            await updateUser(userProfile)
 
-        const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+            const userInfo = {
+                displayName: name,
+                email,
+                photoURL: photoUrl
+            }
+            await axiosSecure.post('/users', userInfo)
 
-        const res = await axios.post(image_API_URL, formData)
+            navigate(location?.state || '/')
 
-        const photoUrl = res.data.data.url
-
-        // update profile
-        const userProfile = {
-            displayName: name,
-            photoURL: photoUrl
+        } catch (err) {
+            console.log(err)
+            setLoading(false)
         }
-
-        await updateUser(userProfile)
-
-        // save user in db
-        const userInfo = {
-            displayName: name,
-            email,
-            photoURL: photoUrl
-        }
-
-        await axiosSecure.post('/users', userInfo)
-
-        navigate(location?.state || '/')
-
     }
-    catch (err) {
-        console.log(err)
-    }
-}
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center">
@@ -77,7 +70,6 @@ const Register = () => {
                     damping: 10,
                     duration: 1.5,
                 }}
-
                 className="w-[90%] md:w-[70%] max-w-md"
             >
                 <div className="bg-white text-black rounded-2xl shadow-xl p-5 md:p-10">
@@ -85,13 +77,11 @@ const Register = () => {
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 pt-4 font-exo">Create Account</h2>
                     </div>
 
-                    <form onSubmit={handleSubmit(handleRegister)}
-                        className="space-y-4">
+                    <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
 
                         {/* NAME */}
                         <div>
-                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Name
-                            </label>
+                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Name</label>
                             <input
                                 type="text"
                                 {...register('name', { required: true })}
@@ -103,8 +93,7 @@ const Register = () => {
 
                         {/* EMAIL */}
                         <div>
-                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Email
-                            </label>
+                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Email</label>
                             <input
                                 type="email"
                                 {...register('email', { required: true })}
@@ -116,8 +105,7 @@ const Register = () => {
 
                         {/* PHOTO */}
                         <div>
-                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Photo
-                            </label>
+                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Photo</label>
                             <input type="file"
                                 {...register('photo', { required: true })}
                                 className="file-input w-full file-input-lg rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF02CB]" placeholder='Your photo' />
@@ -127,10 +115,8 @@ const Register = () => {
                         {/* PASSWORD */}
                         <div>
                             <div className="flex justify-between items-center">
-                                <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Password
-                                </label>
+                                <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Password</label>
                             </div>
-
                             <div className="relative">
                                 <input
                                     {...register('password', { required: true, minLength: 6, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/ })}
@@ -153,7 +139,15 @@ const Register = () => {
 
                         <button
                             type="submit"
-                            className="w-full mt-4 bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer">Sign Up</button>
+                            disabled={loading}
+                            className="w-full mt-4 bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        >
+                            {loading ? (
+                                <FiLoader className="animate-spin text-2xl" />
+                            ) : (
+                                'Sign Up'
+                            )}
+                        </button>
                     </form>
 
                     <div className="mt-4">
