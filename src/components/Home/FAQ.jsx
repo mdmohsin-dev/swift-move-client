@@ -2,10 +2,10 @@ import React from 'react';
 
 const FAQ = () => {
     return (
-        <div className='max-w-350 mx-auto w-11/12 mt-40'>
+        <div className='max-w-250 mx-auto w-11/12 mt-40'>
             <div className='text-center lg:w-8/12 w-full mx-auto'>
-                <h3 className='text-5xl font-bold text-[#104a51]'>Frequently Asked Question (FAQ)</h3>
-                <p className='pt-5'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
+                <h3 className='text-5xl font-bold text-[#104a51]'>Frequently Asked Question</h3>
+                <p className='pt-6'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
             </div>
             <div className='mt-10'>
                 <div className="collapse collapse-arrow bg-base-100 border border-base-300 mt-4">

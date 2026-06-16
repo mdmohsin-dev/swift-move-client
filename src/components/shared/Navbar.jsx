@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { IoIosMenu, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router";
 import logo from "../../assets/courier-logo.png"
+import nameLogo from "../../assets/MoveFastLogo.png"
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useRole from "../../hooks/useRole";
@@ -46,7 +47,7 @@ export default function Navbar() {
           showConfirmButton: false,
           timer: 1500
         });
-        logout().then(() => {});
+        logout().then(() => { });
       }
     });
   }
@@ -87,23 +88,22 @@ export default function Navbar() {
         .sidebar.open { transform: translateX(0); }
       `}</style>
 
-      {/* Scroll হলে নিচের content shift না হওয়ার জন্য placeholder */}
+
       {scrolled && <div className="h-20" />}
 
       {/* NAVBAR */}
       <nav
-        className={`max-w-full mx-auto transition-all duration-300 ${
-          scrolled
+        className={`max-w-full mx-auto transition-all duration-300 ${scrolled
             ? "fixed top-0 left-0 right-0 z-50 bg-white shadow-md"
             : "bg-transparent"
-        }`}
+          }`}
       >
         <div className="max-w-350 mx-auto py-4 px-6">
           <div className="flex justify-between items-center w-full">
 
             <Link to="/" className="flex items-center gap-1">
               <img src={logo} className="w-10" alt="" />
-              <h3 className="text-black text-3xl font-bold">MoveFast</h3>
+              <img src={nameLogo} className="w-32" alt="" />
             </Link>
 
             <div className="flex gap-10 items-center">
@@ -146,7 +146,7 @@ export default function Navbar() {
                 aria-label="Open"
                 onClick={() => setSidebarOpen(true)}
               >
-                <IoIosMenu size={34} color="#FF02CB" />
+                <IoIosMenu size={34} className="border border-gray-200 rounded-sm" color="gray" />
               </button>
             </div>
 

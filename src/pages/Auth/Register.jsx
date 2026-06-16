@@ -129,7 +129,7 @@ const Register = () => {
                                 {errors.password?.type === 'pattern' && (<p className='text-red-500 text-lg font-semibold'>Password must contain at least 1 uppercase, 1 lowercase, and 1 number</p>)}
                                 <button
                                     type="button"
-                                    className="absolute top-4 right-3 cursor-pointer bg-[#CAEB66] p-[6px] rounded-full text-black"
+                                    className="absolute top-4 right-3 cursor-pointer bg-[#00B795] p-[6px] rounded-full text-white"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
                                     {showPassword ? <FaEye /> : <FaEyeSlash />}
@@ -140,7 +140,7 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full mt-4 bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            className="w-full mt-4 bg-[#00B795] hover:scale-105 text-white md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
                         >
                             {loading ? (
                                 <FiLoader className="animate-spin text-2xl" />
@@ -159,7 +159,7 @@ const Register = () => {
                         <p className="text-sm text-gray-700">Already have an account?</p>
                         <Link
                             to="/login"
-                            className="text-[#FF02CB] text-sm font-medium hover:text-[#CAEB66] hover:underline hover:scale-105 transition">Login
+                            className="text-[#00B795] text-sm font-semibold hover:underline hover:scale-105 transition">Login
                         </Link>
                     </div>
                 </div>

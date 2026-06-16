@@ -34,7 +34,7 @@ const Coverage = () => {
                 </form>
             </div>
             <p className="text-3xl font-bold md:pt-14  pt-8">We deliver almost all over Bangladesh</p>
-            <div className="mt-12">
+            <div className="mt-12 relative z-0">
                 <MapContainer
                     center={position}
                     zoom={10}

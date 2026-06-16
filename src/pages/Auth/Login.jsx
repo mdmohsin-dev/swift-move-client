@@ -99,7 +99,7 @@ const Login = () => {
                                 )}
                                 <button
                                     type="button"
-                                    className="absolute top-4 right-3 cursor-pointer bg-[#CAEB66] p-1 rounded-full text-black"
+                                    className="absolute top-4 right-3 cursor-pointer bg-[#00B795] p-1 rounded-full text-white"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
                                     {showPassword ? <FaEye /> : <FaEyeSlash />}
@@ -110,7 +110,7 @@ const Login = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-[#CAEB66] hover:scale-105 text-black md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            className="w-full bg-[#00B795] hover:scale-105 text-white md:text-xl font-bold py-3 rounded-xl transition duration-300 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
                         >
                             {loading ? (
                                 <FiLoader className="animate-spin text-2xl" />
@@ -129,7 +129,7 @@ const Login = () => {
                         <p className="text-sm text-gray-700">Don't have an account?</p>
                         <Link
                             to="/register"
-                            className="text-[#FF02CB] text-sm font-medium hover:text-[#FF0000] hover:underline hover:scale-105 transition"
+                            className="text-[#00B795] text-sm font-semibold hover:underline hover:scale-105 transition"
                         >
                             Register
                         </Link>
