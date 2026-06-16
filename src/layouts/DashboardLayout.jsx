@@ -233,14 +233,6 @@ export default function DashboardLayout() {
                         />
                     )}
 
-                    {(role === "user") && (
-                        <NavItem
-                            icon={<MdPayment size={20} />}
-                            label="Payment History"
-                            to="/dashboard/payment-history"
-                        />
-                    )}
-
                     {role === "admin" && (
                         <NavItem
                             icon={<MdDirectionsBike size={20} />}

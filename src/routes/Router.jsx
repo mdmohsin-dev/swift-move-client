@@ -14,7 +14,6 @@ import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
-import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
 import AllRiders from "../pages/Dashboard/Rider/AllRiders";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import AdminRoute from "./AdminRoute";
@@ -92,10 +91,7 @@ export const router = createBrowserRouter([
                 path: "payment-cancelled",
                 Component: PaymentCancel
             },
-            {
-                path: "payment-history",
-                Component: PaymentHistory
-            },
+            
             {
                 path: "allRiders",
                 Component: AllRiders

@@ -5,7 +5,7 @@ import Navbar from '../components/shared/Navbar';
 
 const RootLayout = () => {
     return (
-        <div className='bg-[#EAECED]'>
+        <div>
             <Navbar></Navbar>
             <Outlet></Outlet>
             <Footer></Footer>

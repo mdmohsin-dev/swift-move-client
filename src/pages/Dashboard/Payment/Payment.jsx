@@ -9,12 +9,6 @@ const Payment = () => {
 
     const axiosSecure = useAxiosSecure()
 
- 
-
-
-
-  
-
     return (
         <div>
             <h1 className='text-black'>Plese pay ${parcel.cost} for {parcel.parcelName}</h1>
