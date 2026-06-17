@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/courier-logo.png"
-import { FaBoxOpen , FaHome, FaUserAlt } from "react-icons/fa";
+import { FaBoxOpen, FaHome, FaUserAlt } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
-import { MdBarChart, MdDashboard, MdDirectionsBike, MdPayment, MdTaskAlt } from "react-icons/md";
+import { MdDashboard, MdDirectionsBike, MdTaskAlt } from "react-icons/md";
 import { HiUsers } from "react-icons/hi";
-import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
+import { RiEBikeFill } from "react-icons/ri";
 import useRole from "../hooks/useRole";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
@@ -60,6 +60,9 @@ export default function DashboardLayout() {
         <NavLink
             to={to}
             end
+            onClick={() => {
+                if (isMobile) setMobileMenuOpen(false);
+            }}
             onMouseEnter={(e) => {
                 if (!isExpanded) {
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -70,15 +73,15 @@ export default function DashboardLayout() {
             className="nav-item w-full flex items-center rounded-xl px-2 py-2.5 relative group"
         >
             <div className="item-bg absolute inset-0 rounded-xl transition-all duration-200" />
-            <span className="nav-icon relative z-10 text-xl shrink-0 w-8 flex items-center justify-center text-white">
+            <span className="nav-icon relative z-10 text-xl shrink-0 w-8 flex items-center justify-center text-white pointer-events-none">
                 {icon}
             </span>
             <span
-                className={`nav-label label-transition relative z-10 ml-2 text-sm font-medium ${isExpanded ? "label-visible" : "label-hidden"}`}
+                className={`nav-label label-transition relative z-10 ml-2 text-sm font-medium pointer-events-none ${isExpanded ? "label-visible" : "label-hidden"}`}
             >
                 {label}
             </span>
-            <span className="active-dot absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot" />
+            <span className="active-dot absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot pointer-events-none" />
         </NavLink>
     );
 
@@ -116,7 +119,14 @@ export default function DashboardLayout() {
           --sidebar-w: 270px;
         }
         .layout-root.collapsed {
-          --sidebar-w: 64px;
+          --sidebar-w: 0px;
+        }
+
+        /* Desktop collapsed = icon-only strip */
+        @media (min-width: 768px) {
+          .layout-root.collapsed {
+            --sidebar-w: 64px;
+          }
         }
 
         .sidebar-el {
@@ -133,11 +143,6 @@ export default function DashboardLayout() {
         .main-el {
           margin-left: var(--sidebar-w);
           transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar-transition {
-          transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-          overflow: hidden;
         }
 
         .label-transition {
@@ -229,10 +234,6 @@ export default function DashboardLayout() {
           border-style: solid;
           border-color: transparent rgba(99,102,241,0.35) transparent transparent;
         }
-        .nav-item:hover .nav-tooltip {
-          opacity: 1;
-          transform: translateX(0);
-        }
 
         .profile-dropdown {
           animation: dropIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -244,7 +245,7 @@ export default function DashboardLayout() {
         }
       `}</style>
 
-            {/* Mobile overlay */}
+            {/* Mobile overlay — tap outside closes sidebar */}
             {isMobile && mobileMenuOpen && (
                 <div
                     className="fixed inset-0 bg-black/60 backdrop-blur-sm z-10 sidebar-overlay"
@@ -254,8 +255,7 @@ export default function DashboardLayout() {
 
             {/* FIXED Sidebar */}
             <aside className="sidebar-el fixed top-0 left-0 h-screen z-20 flex flex-col bg-gray-900 border-r border-gray-800/60 shrink-0">
-                <Link to="/"
-                    className="flex items-center h-16 px-4 shrink-0">
+                <Link to="/" className="flex items-center h-16 px-4 shrink-0">
                     <div className="w-11 h-11 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 shadow-lg">
                         <img src={logo} alt="" />
                     </div>
@@ -267,58 +267,30 @@ export default function DashboardLayout() {
                 </Link>
 
                 <nav className="flex-1 py-4 space-y-3 px-2 overflow-hidden">
-                    <NavItem
-                        icon={<MdDashboard size={20} />}
-                        label="Dashboard"
-                        to="/dashboard"
-                    />
+                    <NavItem icon={<MdDashboard size={20} />} label="Dashboard" to="/dashboard" />
 
-                    {(role === 'user') && (
-                        <NavItem
-                            icon={<FaBoxOpen size={20} />}
-                            label="My Parcels"
-                            to="/dashboard/myParcels"
-                        />
+                    {role === 'user' && (
+                        <NavItem icon={<FaBoxOpen size={20} />} label="My Parcels" to="/dashboard/myParcels" />
                     )}
 
                     {role === "admin" && (
-                        <NavItem
-                            icon={<MdDirectionsBike size={20} />}
-                            label="All Riders"
-                            to="/dashboard/allRiders"
-                        />
+                        <NavItem icon={<MdDirectionsBike size={20} />} label="All Riders" to="/dashboard/allRiders" />
                     )}
 
                     {role === "admin" && (
-                        <NavItem
-                            icon={<HiUsers size={20} />}
-                            label="All Users"
-                            to="/dashboard/allUsers"
-                        />
+                        <NavItem icon={<HiUsers size={20} />} label="All Users" to="/dashboard/allUsers" />
                     )}
 
                     {role === 'admin' && (
-                        <NavItem
-                            icon={<RiEBikeFill />}
-                            label="Assign Rider"
-                            to="/dashboard/assignRider"
-                        />
+                        <NavItem icon={<RiEBikeFill />} label="Assign Rider" to="/dashboard/assignRider" />
                     )}
 
                     {role === 'rider' && (
-                        <NavItem
-                            icon={<RiEBikeFill />}
-                            label="Assigned Delivery"
-                            to="/dashboard/assignedDelivery"
-                        />
+                        <NavItem icon={<RiEBikeFill />} label="Assigned Delivery" to="/dashboard/assignedDelivery" />
                     )}
 
                     {role === 'rider' && (
-                        <NavItem
-                            icon={<MdTaskAlt />}
-                            label="Completed Delivery"
-                            to="/dashboard/completed-delivery"
-                        />
+                        <NavItem icon={<MdTaskAlt />} label="Completed Delivery" to="/dashboard/completed-delivery" />
                     )}
                 </nav>
             </aside>
@@ -359,7 +331,7 @@ export default function DashboardLayout() {
                                 />
                             ) : (
                                 <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm ring-2 ring-indigo-500/50 group-hover:ring-indigo-400 transition-all duration-200">
-                                    {user?.displayName?.charAt(0).toUpperCase() || user?.email.charAt(0).toUpperCase() || "U"}
+                                    {user?.displayName?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
                                 </div>
                             )}
                             <div className="hidden md:flex flex-col items-start">
@@ -368,7 +340,6 @@ export default function DashboardLayout() {
                                 </span>
                                 <span className="text-indigo-400 text-xs capitalize">{role}</span>
                             </div>
-                            {/* Chevron */}
                             <svg
                                 className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 hidden md:block ${profileOpen ? "rotate-180" : ""}`}
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -377,11 +348,8 @@ export default function DashboardLayout() {
                             </svg>
                         </button>
 
-                        {/* Dropdown Menu */}
                         {profileOpen && (
                             <div className="profile-dropdown absolute right-0 top-12 w-56 bg-gray-900 border border-gray-700/60 rounded-xl shadow-2xl overflow-hidden z-50">
-
-                                {/* User Info */}
                                 <div className="px-4 py-3 border-b border-gray-700/60 flex items-center gap-3">
                                     {user?.photoURL ? (
                                         <img src={user.photoURL} alt="" className="w-9 h-9 rounded-full object-cover" />
@@ -396,7 +364,6 @@ export default function DashboardLayout() {
                                     </div>
                                 </div>
 
-                                {/* Links */}
                                 <div className="py-1">
                                     <Link
                                         to="/dashboard/my-profile"
@@ -436,7 +403,8 @@ export default function DashboardLayout() {
                 </main>
             </div>
 
-            {tooltip.visible && !isExpanded && (
+            {/* Tooltip for collapsed desktop sidebar */}
+            {tooltip.visible && !isExpanded && !isMobile && (
                 <div
                     className="nav-tooltip"
                     style={{ top: tooltip.top, transform: "translateY(-50%)", opacity: 1 }}

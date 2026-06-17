@@ -4,7 +4,7 @@ import vector from "../../assets/Vector.png"
 
 const Banner = () => {
     return (
-        <div className="w-11/12 mt-16 h-full flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-0 max-w-350 mx-auto">
+        <div className="w-11/12 lg:mt-16 mt-6 h-full flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-0 max-w-350 mx-auto">
             
             <div className="lg:w-1/2 flex flex-col md:items-start md:text-left lg:gap-8 gap-3 items-center text-center">
                 <img src={vector} className="hidden md:flex" alt="" />

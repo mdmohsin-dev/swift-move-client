@@ -19,7 +19,7 @@ const AssignRider = () => {
     })
 
 
-    const { data: riders = [],refetch:riderRefetch } = useQuery({
+    const { data: riders = [], refetch: riderRefetch } = useQuery({
         queryKey: ['riders', selectedParcel?.senderDistrict, 'available'],
         enabled: !!selectedParcel,
         queryFn: async () => {
@@ -40,7 +40,7 @@ const AssignRider = () => {
             riderName: rider.name,
             riderEmail: rider.email,
             parcelId: selectedParcel._id,
-            trackingId:selectedParcel.trackingId
+            trackingId: selectedParcel.trackingId
         }
 
         axiosSecure.patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
@@ -62,71 +62,76 @@ const AssignRider = () => {
 
 
     return (
-        <div className=' text-black'>
-            <h1 className='text-7xl'>Assgin rider</h1>
-
-            <div>
-                <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Riders:{riders.length}</h3>
+        <div className=' text-black h-full'>
+            {
+                parcels.length < 1 ?
+                    <h3 className="flex text-5xl justify-center items-center h-full">No available awaiting rider assignment.</h3>
+                    :
+                    <div>
+                        <h1 className='text-7xl pb-10'>Assgin rider</h1>
+                        <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
+                            <div className="modal-box">
+                                <h3 className="font-bold text-lg">Riders:{riders.length}</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="table table-zebra">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                riders.map((rider, idx) => <tr>
+                                                    <th>{idx + 1}</th>
+                                                    <td>{rider.name}</td>
+                                                    <td>{rider.email}</td>
+                                                    <td><button onClick={() => handleAssignRider(rider)}
+                                                        className="btn btn-sm bg-[#CAEB66] text-black">Assign</button></td>
+                                                </tr>)
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="modal-action">
+                                    <form method="dialog">
+                                        <button className="btn">Close</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
                         <div className="overflow-x-auto">
                             <table className="table table-zebra">
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th>Name</th>
-                                        <th>Email</th>
+                                        <th>Cost</th>
+                                        <th>Booked at</th>
+                                        <th>Pickup District</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        riders.map((rider, idx) => <tr>
+                                        parcels.map((parcel, idx) => <tr key={parcel._id}>
                                             <th>{idx + 1}</th>
-                                            <td>{rider.name}</td>
-                                            <td>{rider.email}</td>
-                                            <td><button onClick={() => handleAssignRider(rider)}
-                                                className="btn btn-sm bg-[#CAEB66] text-black">Assign</button></td>
+                                            <td>{parcel.parcelName}</td>
+                                            <td>BDT {parcel.cost}</td>
+                                            <td>{new Date(parcel.createdAt).toLocaleString()}</td>
+                                            <td>{parcel.senderDistrict}</td>
+                                            <td><button onClick={() => openRiderAssignModal(parcel)}
+                                                className='btn btn-sm bg-[#CAEB66] text-black'>Find Rider</button></td>
                                         </tr>)
                                     }
                                 </tbody>
                             </table>
                         </div>
-                        <div className="modal-action">
-                            <form method="dialog">
-                                <button className="btn">Close</button>
-                            </form>
-                        </div>
                     </div>
-                </dialog>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Cost</th>
-                                <th>Booked at</th>
-                                <th>Pickup District</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                parcels.map((parcel, idx) => <tr key={parcel._id}>
-                                    <th>{idx + 1}</th>
-                                    <td>{parcel.parcelName}</td>
-                                    <td>BDT {parcel.cost}</td>
-                                    <td>{new Date(parcel.createdAt).toLocaleString()}</td>
-                                    <td>{parcel.senderDistrict}</td>
-                                    <td><button onClick={() => openRiderAssignModal(parcel)}
-                                        className='btn btn-sm bg-[#CAEB66] text-black'>Find Rider</button></td>
-                                </tr>)
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            }
+
 
         </div>
     );

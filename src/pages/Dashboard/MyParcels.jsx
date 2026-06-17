@@ -17,7 +17,7 @@ const MyParcels = () => {
             return result.data
         }
     })
-console.log(parcels)
+    console.log(parcels)
 
     const handlePayment = async (parcel) => {
         const paymentInfo = {
@@ -41,48 +41,55 @@ console.log(parcels)
 
 
     return (
-        <div>
-            <div className="overflow-x-auto">
-                <table className="table table-zebra text-black">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Product Name</th>
-                            <th>Reciver</th>
-                            <th>Cost</th>
-                            <th>Tracking Id</th>
-                            <th>Payment</th>
-                            <th>Delivery Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            parcels?.map((parcel, idx) =>
-                                <tr key={parcel._id}>
-                                    <th>{idx + 1}</th>
-                                    <td>{parcel.parcelName}</td>
-                                    <td>{parcel.recieverName}</td>
-                                    <td>{parcel.cost}</td>
-                                    <td><Link to={`/parcel-track/${parcel.trackingId}`}>{parcel.trackingId}</Link></td>
-                                    <td>{parcel.paymentStatus === 'paid' ? <span className='text-green-500 font-semibold text-lg'>Paid</span> :
-                                        <Link onClick={()=>handlePayment(parcel)}
-                                            className="btn btn-sm bg-blue-600 text-white">Pay Now</Link>}
-                                    </td>
-                                    <td>{parcel.deliveryStatus}</td>
-                                    <td className='flex gap-4 justify-between'>
-
-                                        <button className='cursor-pointer'><FaPen size={20}></FaPen></button>
-                                        <button className='cursor-pointer'><FaMagnifyingGlassPlus size={20} /></button>
-                                        <button className='cursor-pointer'><FaTrash color='red' size={20} /></button>
-                                    </td>
+        <div className='text-black h-full'>
+            {
+                parcels.length < 1 ?
+                    <h3 className="flex xl:text-5xl lg:text-4xl md:text-2xl text-xl justify-center items-center h-full">Start your first delivery request and we'll handle the rest.</h3>
+                    :
+                    <div className="overflow-x-auto">
+                        <h3 className='text-5xl text-center pb-12'>My Parcles</h3>
+                        <table className="table table-zebra text-black">
+                            {/* head */}
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                    <th>Reciver</th>
+                                    <th>Cost</th>
+                                    <th>Tracking Id</th>
+                                    <th>Payment</th>
+                                    <th>Delivery Status</th>
+                                    <th>Actions</th>
                                 </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
-            </div>
+                            </thead>
+                            <tbody>
+                                {
+                                    parcels?.map((parcel, idx) =>
+                                        <tr key={parcel._id}>
+                                            <th>{idx + 1}</th>
+                                            <td>{parcel.parcelName}</td>
+                                            <td>{parcel.recieverName}</td>
+                                            <td>{parcel.cost}</td>
+                                            <td><Link to={`/parcel-track/${parcel.trackingId}`}>{parcel.trackingId}</Link></td>
+                                            <td>{parcel.paymentStatus === 'paid' ? <span className='text-green-500 font-semibold text-lg'>Paid</span> :
+                                                <Link onClick={() => handlePayment(parcel)}
+                                                    className="btn btn-sm bg-blue-600 text-white">Pay Now</Link>}
+                                            </td>
+                                            <td>{parcel.deliveryStatus}</td>
+                                            <td className='flex gap-4 justify-between'>
+
+                                                <button className='cursor-pointer'><FaPen size={20}></FaPen></button>
+                                                <button className='cursor-pointer'><FaMagnifyingGlassPlus size={20} /></button>
+                                                <button className='cursor-pointer'><FaTrash color='red' size={20} /></button>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+            }
+
         </div>
     );
 };

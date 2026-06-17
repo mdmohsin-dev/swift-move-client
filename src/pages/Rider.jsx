@@ -161,7 +161,7 @@ const Rider = () => {
 
                         <button
                             type="submit"
-                            className="bg-[#CAEB66] w-full px-6 btn mt-5 text-black hover:bg-black hover:text-white hover:scale-105 font-bold py-3 transition duration-300 cursor-pointer">Apply as a Rider
+                            className="bg-[#00B795] w-full px-6 btn mt-5 text-white hover:bg-black hover:text-white hover:scale-105 font-bold py-3 transition duration-300 cursor-pointer">Apply as a Rider
                         </button>
                     </form>
                 </div>

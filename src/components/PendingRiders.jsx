@@ -37,7 +37,7 @@ const PendingRiders = () => {
     return (
         <div className="w-full">
             {
-                pendingRiders.length < 1 ? '' : <div className="overflow-x-auto text-black mt-18 ml-24">
+                pendingRiders.length > 0 &&  <div className="overflow-x-auto text-black mt-18 ml-24">
                     <h3 className="text-3xl font-bold">Rider Approval Requests</h3>
                 <table className="table table-zebra mt-6">
                     <thead>
@@ -77,7 +77,6 @@ const PendingRiders = () => {
                                         className="cursor-pointer"><FaCheck color="green" size={28}></FaCheck></button>
                                     <button onClick={() => handleApproval(rider, 'rejected')}
                                         className="cursor-pointer"><RxCross2 color="red" size={28}></RxCross2></button>
-                                    <button className="cursor-pointer"><TbTrashFilled color="red" size={28}></TbTrashFilled></button>
                                 </td>
                             </tr>)
                         }

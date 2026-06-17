@@ -67,7 +67,6 @@ const SendParcel = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                // SAVE PARCEL ON DATABASE
                 axiosSecure.post("/parcels", parcelData)
                     .then(async res => {
                         console.log('after save data on database', res.data)
@@ -97,13 +96,13 @@ const SendParcel = () => {
                         <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">
                             <input type="radio"
                                 {...register('parcelType')}
-                                className='radio checked:text-[#bcf906] checked:border-2 checked:border-green-600' value='document' defaultChecked />
+                                className='radio checked:text-[#00B795] checked:border-2 checked:border-green-600' value='document' defaultChecked />
                             Document
                         </label>
                         <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">
                             <input type="radio"
                                 {...register('parcelType')}
-                                className='radio checked:text-[#bcf906] checked:border-2 checked:border-green-600'
+                                className='radio checked:text-[#00B795] checked:border-2 checked:border-green-600'
                                 value='not-document' />
                             Not-Document
                         </label>
@@ -326,7 +325,7 @@ const SendParcel = () => {
 
                     <button
                         type="submit"
-                        className="bg-[#CAEB66] px-6 btn mt-5 text-black hover:bg-black hover:text-white hover:scale-105 font-bold py-3 transition duration-300 cursor-pointer">Proceed to Confirm Booking
+                        className="bg-[#00B795] px-6 btn mt-5 text-black hover:bg-black hover:text-white hover:scale-105 font-bold py-3 transition duration-300 cursor-pointer">Proceed to Confirm Booking
                     </button>
                 </form>
             </div>

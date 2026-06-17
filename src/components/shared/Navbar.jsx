@@ -16,19 +16,13 @@ export default function Navbar() {
   const role = useRole()
 
   const navLinks = <>
-    <li><NavLink to="/">Home</NavLink></li>
-    {role.role === 'user' && (<li><NavLink to="/send-parcel">Send Parcel</NavLink></li>)}
-    <li><NavLink to="/coverage">Coverage</NavLink></li>
-    {role.role === 'user' && (<li><NavLink to="/beArider">Be a Rider</NavLink></li>)}
-    {role.role === 'user' && (<li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>)}
-    {user && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
+    <li><NavLink to="/" onClick={() => setSidebarOpen(false)}>Home</NavLink></li>
+    {role.role === 'user' && (<li><NavLink to="/send-parcel" onClick={() => setSidebarOpen(false)}>Send Parcel</NavLink></li>)}
+    <li><NavLink to="/coverage" onClick={() => setSidebarOpen(false)}>Coverage</NavLink></li>
+    {role.role === 'user' && (<li><NavLink to="/beArider" onClick={() => setSidebarOpen(false)}>Be a Rider</NavLink></li>)}
+    {role.role === 'user' && (<li><NavLink to="/dashboard/myParcels" onClick={() => setSidebarOpen(false)}>My Parcels</NavLink></li>)}
+    {user && <li><NavLink to="/dashboard" onClick={() => setSidebarOpen(false)}>Dashboard</NavLink></li>}
   </>
-
-  const handleNavClick = (e) => {
-    if (e.target.closest("a")) {
-      setSidebarOpen(false);
-    }
-  };
 
   const handleLogout = () => {
     Swal.fire({
@@ -87,7 +81,6 @@ export default function Navbar() {
         }
         .sidebar.open { transform: translateX(0); }
       `}</style>
-
 
       {scrolled && <div className="h-20" />}
 
@@ -150,22 +143,20 @@ export default function Navbar() {
       {/* SIDEBAR */}
       <aside
         ref={sidebarRef}
-        className={`sidebar ${sidebarOpen ? "open" : ""} fixed w-72 h-dvh bg-[#EAECED] pl-4 pt-4 pr-2`}
+        className={`sidebar ${sidebarOpen ? "open" : ""} fixed top-0 left-0 w-full h-dvh bg-[#EAECED] pl-4 pt-4 pr-2`}
         aria-hidden={!sidebarOpen}
       >
         <div className="flex text-black justify-between items-center">
-          <h3 className="text-3xl font-marker bg-linear-to-b from-black to-[#FF02CB] bg-clip-text text-transparent">
-            MoveFast
-          </h3>
+          <Link to="/" className="flex items-center gap-1">
+            <img src={logo} className="w-10" alt="" />
+            <img src={nameLogo} className="w-32" alt="" />
+          </Link>
           <button aria-label="Close" onClick={() => setSidebarOpen(false)}>
             <IoMdClose size={34} color="black" />
           </button>
         </div>
 
-        <ul
-          onClick={handleNavClick}
-          className="flex flex-col gap-6 text-black text-xl font-semibold pt-6"
-        >
+        <ul className="flex flex-col gap-6 text-black text-xl font-semibold pt-6 items-start">
           {navLinks}
         </ul>
 
@@ -174,7 +165,7 @@ export default function Navbar() {
             <button onClick={() => setSidebarOpen(false)}>
               <Link
                 to="/login"
-                className="bottom-4 btn mt-6 bg-[#CAEB66] border-none flex gap-4 text-lg py-4 px-6 font-exo hover:rounded-3xl transition-all duration-500 hover:bg-black"
+                className="bottom-4 btn mt-6 bg-[#00B795] border-none flex gap-4 text-lg py-4 px-6 font-exo hover:rounded-3xl transition-all duration-500 hover:bg-black"
               >
                 Login
               </Link>

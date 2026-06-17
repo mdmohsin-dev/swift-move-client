@@ -14,12 +14,8 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 const QUICK_CREDENTIALS = {
     admin: {
         email: 'admin@gmail.com',
-        password: 'admin123456',
-    },
-    user: {
-        email: 'user@gmail.com',
-        password: 'user123456',
-    },
+        password: 'Admin1',
+    }
 };
 
 const Login = () => {
@@ -104,12 +100,11 @@ const Login = () => {
                             <div className="flex-1 h-px bg-gray-200" />
                         </div>
                        
-                        <div className="grid grid-cols-2 gap-3">
-                            {/* Admin Button */}
+                        <div className="w-full">
                             <button
                                 type="button"
                                 onClick={() => handleQuickFill('admin')}
-                                className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
+                                className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
                                     ${activeRole === 'admin'
                                         ? 'bg-[#00B795] border-[#00B795] text-white scale-[1.02]'
                                         : 'border-[#00B795] text-[#00B795] hover:bg-[#00B795]/10'
@@ -118,33 +113,7 @@ const Login = () => {
                                 <MdAdminPanelSettings className="text-xl" />
                                 Admin
                             </button>
-
-                            {/* User Button */}
-                            <button
-                                type="button"
-                                onClick={() => handleQuickFill('user')}
-                                className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
-                                    ${activeRole === 'user'
-                                        ? 'bg-[#7C3AED] border-[#7C3AED] text-white scale-[1.02]'
-                                        : 'border-[#7C3AED] text-[#7C3AED] hover:bg-[#7C3AED]/10'
-                                    }`}
-                            >
-                                <FaUserCircle className="text-lg" />
-                                User
-                            </button>
                         </div>
-
-                        {/* Active role badge */}
-                        {activeRole && (
-                            <motion.p
-                                initial={{ opacity: 0, y: -4 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className={`text-center text-sm mt-4 font-medium
-                                    ${activeRole === 'admin' ? 'text-[#00B795]' : 'text-[#7C3AED]'}`}
-                            >
-                                ● {activeRole === 'admin' ? 'Admin' : 'User'} credentials filled
-                            </motion.p>
-                        )}
                     </div>
 
                     {/* ── Login Form ── */}

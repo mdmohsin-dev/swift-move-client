@@ -34,59 +34,67 @@ const AllRiders = () => {
     }
 
     return (
-        <div className="text-black">
-            <h1>All riders: {riders.length}</h1>
-            <div>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra">
+        <div className="text-black h-full">
+            {
 
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Application Status</th>
-                                <th>Work Status</th>
-                                <th>District</th>
-                                <th>Phone</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                riders.map((rider, idx) => <tr>
-                                    <th>{idx + 1}</th>
-                                    <td>{rider.name}</td>
-                                    <td>{rider.email}</td>
-                                    <td>
-                                        {
-                                            <p className={`
+                riders.length < 1 ?
+                    <h3 className="flex text-5xl justify-center items-center h-full">There are currently no riders in the system.</h3>
+                    :
+                    <div>
+                        <h3 className="text-4xl">All riders: {riders.length}</h3>
+
+                        <div className="overflow-x-auto">
+                            <table className="table table-zebra">
+
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Application Status</th>
+                                        <th>Work Status</th>
+                                        <th>District</th>
+                                        <th>Phone</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        riders.map((rider, idx) => <tr>
+                                            <th>{idx + 1}</th>
+                                            <td>{rider.name}</td>
+                                            <td>{rider.email}</td>
+                                            <td>
+                                                {
+                                                    <p className={`
                                                 ${rider.status === 'approved' && 'text-green-600'}
                                                 ${rider.status === 'pending' && 'text-yellow-500'}
                                                 ${rider.status === 'rejected' && 'text-red-600'}`}
-                                            >
-                                                {rider.status === 'pending' && 'pending'}
-                                                {rider.status === 'approved' && 'approved'}
-                                                {rider.status === 'rejected' && 'rejected'}
-                                            </p>
-                                        }
-                                    </td>
-                                    <td>{rider.workStatus}</td>
-                                    <td>{rider.district}</td>
-                                    <td>{rider.phoneNumber}</td>
-                                    <td className="flex gap-8">
-                                        <button onClick={() => handleApproval(rider, 'approved')}
-                                            className="cursor-pointer"><FaCheck color="green" size={28}></FaCheck></button>
-                                        <button onClick={() => handleApproval(rider, 'rejected')}
-                                            className="cursor-pointer"><RxCross2 color="red" size={28}></RxCross2></button>
-                                        <button className="cursor-pointer"><TbTrashFilled color="red" size={28}></TbTrashFilled></button>
-                                    </td>
-                                </tr>)
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                                                    >
+                                                        {rider.status === 'pending' && 'pending'}
+                                                        {rider.status === 'approved' && 'approved'}
+                                                        {rider.status === 'rejected' && 'rejected'}
+                                                    </p>
+                                                }
+                                            </td>
+                                            <td>{rider.workStatus}</td>
+                                            <td>{rider.district}</td>
+                                            <td>{rider.phoneNumber}</td>
+                                            <td className="flex gap-8">
+                                                <button onClick={() => handleApproval(rider, 'approved')}
+                                                    className="cursor-pointer"><FaCheck color="green" size={28}></FaCheck></button>
+                                                <button onClick={() => handleApproval(rider, 'rejected')}
+                                                    className="cursor-pointer"><RxCross2 color="red" size={28}></RxCross2></button>
+                                                <button className="cursor-pointer"><TbTrashFilled color="red" size={28}></TbTrashFilled></button>
+                                            </td>
+                                        </tr>)
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+            }
         </div>
     );
 };
