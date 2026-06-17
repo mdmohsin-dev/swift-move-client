@@ -29,7 +29,7 @@ const Coverage = () => {
                     <div className="border border-gray-300 max-w-md flex justify-between">
                         <input name="location"
                             className="input focus:outline-none border-none w-full" placeholder="Search by district" type="text" />
-                        <button type="submit" className="btn bg-[#AED82F]">Search</button>
+                        <button type="submit" className="btn bg-[#00B795] text-white">Search</button>
                     </div>
                 </form>
             </div>

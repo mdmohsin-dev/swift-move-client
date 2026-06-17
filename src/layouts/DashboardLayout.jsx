@@ -1,19 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/courier-logo.png"
-import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
+import { FaBoxOpen , FaHome, FaUserAlt } from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
 import { MdBarChart, MdDashboard, MdDirectionsBike, MdPayment, MdTaskAlt } from "react-icons/md";
 import { HiUsers } from "react-icons/hi";
 import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
 import useRole from "../hooks/useRole";
+import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
 
 export default function DashboardLayout() {
     const { role } = useRole();
+    const { logout, user } = useAuth()
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [tooltip, setTooltip] = useState({ label: "", top: 0, visible: false });
+    const [profileOpen, setProfileOpen] = useState(false);
+
+    const profileRef = useRef(null);
 
     useEffect(() => {
         const checkSize = () => {
@@ -27,6 +34,16 @@ export default function DashboardLayout() {
         checkSize();
         window.addEventListener("resize", checkSize);
         return () => window.removeEventListener("resize", checkSize);
+    }, []);
+
+    useEffect(() => {
+        const handleOutside = (e) => {
+            if (profileRef.current && !profileRef.current.contains(e.target)) {
+                setProfileOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleOutside);
+        return () => document.removeEventListener("mousedown", handleOutside);
     }, []);
 
     const isExpanded = isMobile ? mobileMenuOpen : sidebarOpen;
@@ -64,6 +81,28 @@ export default function DashboardLayout() {
             <span className="active-dot absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 glow-dot" />
         </NavLink>
     );
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You want to logout`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Logout successfully.",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                logout().then(() => { });
+            }
+        });
+    }
 
     return (
         <div
@@ -194,6 +233,15 @@ export default function DashboardLayout() {
           opacity: 1;
           transform: translateX(0);
         }
+
+        .profile-dropdown {
+          animation: dropIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes dropIn {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
       `}</style>
 
             {/* Mobile overlay */}
@@ -204,9 +252,9 @@ export default function DashboardLayout() {
                 />
             )}
 
-            {/* ✅ FIXED Sidebar */}
+            {/* FIXED Sidebar */}
             <aside className="sidebar-el fixed top-0 left-0 h-screen z-20 flex flex-col bg-gray-900 border-r border-gray-800/60 shrink-0">
-                <Link to="/dashboard"
+                <Link to="/"
                     className="flex items-center h-16 px-4 shrink-0">
                     <div className="w-11 h-11 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 shadow-lg">
                         <img src={logo} alt="" />
@@ -273,26 +321,15 @@ export default function DashboardLayout() {
                         />
                     )}
                 </nav>
-
-                <div className="border-t border-gray-800/60 p-3">
-                    <Link
-                        to="/"
-                        className="btn w-full bg-[#F4AE33] text-[16px] border-none flex items-center justify-center"
-                    >
-                        <FaArrowLeft size={20} className="shrink-0" />
-                        <span
-                            className={`label-transition ml-2 ${isExpanded ? "label-visible" : "label-hidden"}`}
-                        >
-                            Return Home
-                        </span>
-                    </Link>
-                </div>
             </aside>
 
-            {/* ✅ Main content area — offset by sidebar width via CSS variable */}
+            {/* Main content area */}
             <div className="main-el flex-1 flex flex-col min-w-0">
-                {/* ✅ FIXED Top Navbar */}
+
+                {/* FIXED Top Navbar */}
                 <header className="navbar-el fixed top-0 right-0 h-16 bg-gray-900/80 backdrop-blur border-b border-gray-800/60 flex items-center justify-between px-4 z-10">
+
+                    {/* Toggle Button */}
                     <button
                         onClick={handleToggle}
                         className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-indigo-600/30 border border-gray-700/60 hover:border-indigo-500/40 flex items-center justify-center text-gray-400 hover:text-indigo-300 transition-all duration-200"
@@ -307,9 +344,93 @@ export default function DashboardLayout() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7M18 19l-7-7 7-7" />
                         </svg>
                     </button>
+
+                    {/* Profile Dropdown */}
+                    <div className="relative" ref={profileRef}>
+                        <button
+                            onClick={() => setProfileOpen((prev) => !prev)}
+                            className="flex items-center gap-2.5 group"
+                        >
+                            {user?.photoURL ? (
+                                <img
+                                    src={user.photoURL}
+                                    alt="profile"
+                                    className="w-9 h-9 rounded-full object-cover ring-2 ring-indigo-500/50 group-hover:ring-indigo-400 transition-all duration-200"
+                                />
+                            ) : (
+                                <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm ring-2 ring-indigo-500/50 group-hover:ring-indigo-400 transition-all duration-200">
+                                    {user?.displayName?.charAt(0).toUpperCase() || user?.email.charAt(0).toUpperCase() || "U"}
+                                </div>
+                            )}
+                            <div className="hidden md:flex flex-col items-start">
+                                <span className="text-white text-sm font-medium leading-tight">
+                                    {user?.displayName || "User"}
+                                </span>
+                                <span className="text-indigo-400 text-xs capitalize">{role}</span>
+                            </div>
+                            {/* Chevron */}
+                            <svg
+                                className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 hidden md:block ${profileOpen ? "rotate-180" : ""}`}
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {profileOpen && (
+                            <div className="profile-dropdown absolute right-0 top-12 w-56 bg-gray-900 border border-gray-700/60 rounded-xl shadow-2xl overflow-hidden z-50">
+
+                                {/* User Info */}
+                                <div className="px-4 py-3 border-b border-gray-700/60 flex items-center gap-3">
+                                    {user?.photoURL ? (
+                                        <img src={user.photoURL} alt="" className="w-9 h-9 rounded-full object-cover" />
+                                    ) : (
+                                        <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm">
+                                            {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                                        </div>
+                                    )}
+                                    <div className="min-w-0">
+                                        <p className="text-white text-sm font-semibold truncate">{user?.displayName || "User"}</p>
+                                        <p className="text-gray-400 text-xs truncate">{user?.email}</p>
+                                    </div>
+                                </div>
+
+                                {/* Links */}
+                                <div className="py-1">
+                                    <Link
+                                        to="/dashboard/my-profile"
+                                        onClick={() => setProfileOpen(false)}
+                                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600/20 hover:text-indigo-300 transition-colors duration-150"
+                                    >
+                                        <FaUserAlt size={14} />
+                                        My Profile
+                                    </Link>
+                                    <Link
+                                        to="/"
+                                        onClick={() => setProfileOpen(false)}
+                                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600/20 hover:text-indigo-300 transition-colors duration-150"
+                                    >
+                                        <FaHome size={15} />
+                                        Go to Home
+                                    </Link>
+                                </div>
+
+                                <div className="border-t border-gray-700/60 py-1">
+                                    <button
+                                        onClick={() => { setProfileOpen(false); handleLogout(); }}
+                                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-500 hover:bg-red-500/10 hover:text-red-300 transition-colors duration-150"
+                                    >
+                                        <CiLogout size={18} />
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </header>
 
-                {/* ✅ Scrollable outlet area only */}
+                {/* Scrollable outlet */}
                 <main className="mt-16 flex-1 overflow-y-auto p-5 bg-white">
                     <Outlet />
                 </main>

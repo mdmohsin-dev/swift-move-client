@@ -17,11 +17,23 @@ const Reviews = ({ reviewsPromis }) => {
                 <p className='pt-5'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
             </div>
 
-            <div className='mt-16'>
+            <div className='mt-16 relative'>
+                {/* Left fade mask */}
+                <div
+                    className="absolute inset-y-0 left-0 w-32 z-10 pointer-events-none"
+                    style={{ background: 'linear-gradient(to right, #ffffff, transparent)' }}
+                />
+                {/* Right fade mask */}
+                <div
+                    className="absolute inset-y-0 right-0 w-32 z-10 pointer-events-none"
+                    style={{ background: 'linear-gradient(to left, #ffffff, transparent)' }}
+                />
+
                 <Swiper
-                    effect={'coverflow'}
+                    // effect={'coverflow'}
                     grabCursor={true}
                     centeredSlides={true}
+                    spaceBetween={30}
                     loop={true}
                     autoplay={{
                         delay: 2000,

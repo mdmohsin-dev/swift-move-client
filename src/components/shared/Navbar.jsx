@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 import useRole from "../../hooks/useRole";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const sidebarRef = useRef(null);
@@ -22,6 +21,7 @@ export default function Navbar() {
     <li><NavLink to="/coverage">Coverage</NavLink></li>
     {role.role === 'user' && (<li><NavLink to="/beArider">Be a Rider</NavLink></li>)}
     {role.role === 'user' && (<li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>)}
+    {user && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
   </>
 
   const handleNavClick = (e) => {
@@ -94,8 +94,8 @@ export default function Navbar() {
       {/* NAVBAR */}
       <nav
         className={`max-w-full mx-auto transition-all duration-300 ${scrolled
-            ? "fixed top-0 left-0 right-0 z-50 bg-white shadow-md"
-            : "bg-transparent"
+          ? "fixed top-0 left-0 right-0 z-50 bg-white shadow-md"
+          : "bg-transparent"
           }`}
       >
         <div className="max-w-350 mx-auto py-4 px-6">
@@ -115,27 +115,20 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
               <div>
                 {user ? (
-                  <div className="relative">
-                    <img
-                      onClick={() => setOpen(!open)}
-                      className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                      src={user?.photoURL}
-                      alt=""
-                    />
-                    {open && (
-                      <div className="absolute right-1 top-14 w-52 bg-[#EAECED] text-black p-4 shadow rounded-md flex flex-col">
-                        <Link className="btn bg-[#F4AE33]" to="/dashboard">Dashboard</Link>
-                        <button
-                          onClick={handleLogout}
-                          className="btn w-full mt-3 border-none bg-[#CAEB66]"
-                        >
-                          Logout
-                        </button>
-                      </div>
-                    )}
+                  <div>
+                    <Link to="/dashboard/my-profile">
+                      <img
+                        className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                        src={user?.photoURL}
+                        alt=""
+                      />
+                    </Link>
                   </div>
                 ) : (
-                  <Link to="/login" className="btn hidden md:flex border-none bg-[#00B795] px-6 text-white">
+                  <Link
+                    to="/login"
+                    className="btn hidden md:flex border border-[#00B795] bg-[#00B795] px-6 text-white transition-all duration-300 hover:bg-transparent hover:text-[#00B795]"
+                  >
                     Login
                   </Link>
                 )}

@@ -61,7 +61,7 @@ const AllUsers = () => {
             <div className="md:mt-12 mt-7">
                     <div onChange={(e) => setSearchText(e.target.value)} className="border border-gray-300 max-w-md flex justify-between">
                         <input name="location"
-                            className="input focus:outline-none border-none w-full" placeholder="Search by district" type="text" />
+                            className="input focus:outline-none border-none w-full" placeholder="Search by user name" type="text" />
                     </div>
             </div>
 

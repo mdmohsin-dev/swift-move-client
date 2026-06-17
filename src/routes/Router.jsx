@@ -22,6 +22,7 @@ import AssignedDelivery from "../pages/Dashboard/Rider/AssignedDelivery";
 import RiderRoute from "./RiderRoute";
 import ComplatedDelivery from "../pages/Dashboard/Rider/ComplatedDelivery";
 import ParcelTrack from "../pages/ParcelTrack";
+import MyProfile from "../pages/Dashboard/MyProfile";
 
 export const router = createBrowserRouter([
     {
@@ -91,10 +92,14 @@ export const router = createBrowserRouter([
                 path: "payment-cancelled",
                 Component: PaymentCancel
             },
-            
+
             {
                 path: "allRiders",
                 Component: AllRiders
+            },
+            {
+                path: "my-profile",
+                Component:MyProfile
             },
             {
                 path: "allUsers",

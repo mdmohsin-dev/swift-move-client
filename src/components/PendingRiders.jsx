@@ -37,8 +37,9 @@ const PendingRiders = () => {
     return (
         <div className="w-full">
             {
-                pendingRiders.length < 1 ? '' : <div className="overflow-x-auto text-black mt-16 ml-18">
-                <table className="table table-zebra">
+                pendingRiders.length < 1 ? '' : <div className="overflow-x-auto text-black mt-18 ml-24">
+                    <h3 className="text-3xl font-bold">Rider Approval Requests</h3>
+                <table className="table table-zebra mt-6">
                     <thead>
                         <tr>
                             <th></th>

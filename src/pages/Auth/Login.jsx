@@ -2,23 +2,45 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
+import { MdAdminPanelSettings } from 'react-icons/md';
+import { FaUserCircle } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
 import GoogleLogin from '../../components/GoogleLogin';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
+
+const QUICK_CREDENTIALS = {
+    admin: {
+        email: 'admin@gmail.com',
+        password: 'admin123456',
+    },
+    user: {
+        email: 'user@gmail.com',
+        password: 'user123456',
+    },
+};
+
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [activeRole, setActiveRole] = useState(null);
 
     const axiosSecure = useAxiosSecure();
 
-    const { handleSubmit, register, formState: { errors } } = useForm();
+    const { handleSubmit, register, setValue, formState: { errors } } = useForm();
 
     const navigate = useNavigate();
     const location = useLocation();
     const { login } = useAuth();
+
+
+    const handleQuickFill = (role) => {
+        setActiveRole(role);
+        setValue('email', QUICK_CREDENTIALS[role].email);
+        setValue('password', QUICK_CREDENTIALS[role].password);
+    };
 
     const handleLogin = (data) => {
         const { email, password } = data;
@@ -66,12 +88,71 @@ const Login = () => {
             >
                 <div className="bg-white text-black rounded-2xl shadow-xl p-5 md:p-10">
                     <div className="flex flex-col items-center mb-6">
-                        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mt-2">Welcome Back</h2>
+                        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mt-2">
+                            Welcome Back
+                        </h2>
                     </div>
 
+                    {/* ── Quick Fill Role Buttons ── */}
+                    <div className="mb-5">
+                        
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="flex-1 h-px bg-gray-200" />
+                            <span className="text-xs font-semibold  whitespace-nowrap">
+                                Login as
+                            </span>
+                            <div className="flex-1 h-px bg-gray-200" />
+                        </div>
+                       
+                        <div className="grid grid-cols-2 gap-3">
+                            {/* Admin Button */}
+                            <button
+                                type="button"
+                                onClick={() => handleQuickFill('admin')}
+                                className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
+                                    ${activeRole === 'admin'
+                                        ? 'bg-[#00B795] border-[#00B795] text-white scale-[1.02]'
+                                        : 'border-[#00B795] text-[#00B795] hover:bg-[#00B795]/10'
+                                    }`}
+                            >
+                                <MdAdminPanelSettings className="text-xl" />
+                                Admin
+                            </button>
+
+                            {/* User Button */}
+                            <button
+                                type="button"
+                                onClick={() => handleQuickFill('user')}
+                                className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
+                                    ${activeRole === 'user'
+                                        ? 'bg-[#7C3AED] border-[#7C3AED] text-white scale-[1.02]'
+                                        : 'border-[#7C3AED] text-[#7C3AED] hover:bg-[#7C3AED]/10'
+                                    }`}
+                            >
+                                <FaUserCircle className="text-lg" />
+                                User
+                            </button>
+                        </div>
+
+                        {/* Active role badge */}
+                        {activeRole && (
+                            <motion.p
+                                initial={{ opacity: 0, y: -4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className={`text-center text-sm mt-4 font-medium
+                                    ${activeRole === 'admin' ? 'text-[#00B795]' : 'text-[#7C3AED]'}`}
+                            >
+                                ● {activeRole === 'admin' ? 'Admin' : 'User'} credentials filled
+                            </motion.p>
+                        )}
+                    </div>
+
+                    {/* ── Login Form ── */}
                     <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
                         <div>
-                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Email</label>
+                            <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">
+                                Email
+                            </label>
                             <input
                                 type="email"
                                 {...register('email', { required: true })}
@@ -79,13 +160,17 @@ const Login = () => {
                                 placeholder="you@example.com"
                             />
                             {errors.email?.type === 'required' && (
-                                <p className='text-red-500 text-lg font-semibold'>Please add your email</p>
+                                <p className='text-red-500 text-lg font-semibold'>
+                                    Please add your email
+                                </p>
                             )}
                         </div>
 
                         <div>
                             <div className="flex justify-between items-center">
-                                <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">Password</label>
+                                <label className="text-sm md:text-lg font-medium text-gray-700 flex items-center gap-2">
+                                    Password
+                                </label>
                             </div>
                             <div className="relative">
                                 <input
@@ -95,7 +180,9 @@ const Login = () => {
                                     placeholder="••••••••"
                                 />
                                 {errors.password?.type === 'required' && (
-                                    <p className='text-red-500 text-lg font-semibold'>Please add your login password</p>
+                                    <p className='text-red-500 text-lg font-semibold'>
+                                        Please add your login password
+                                    </p>
                                 )}
                                 <button
                                     type="button"
