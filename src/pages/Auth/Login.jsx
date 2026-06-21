@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaMotorcycle } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { FaUserCircle } from 'react-icons/fa';
@@ -15,6 +15,14 @@ const QUICK_CREDENTIALS = {
     admin: {
         email: 'admin@gmail.com',
         password: 'Admin1',
+    },
+    user: {
+        email: 'babar@azam.com',
+        password: 'Babar1',
+    },
+    rider: {
+        email: 'rohit@sharma.com',
+        password: 'Rohit1',
     }
 };
 
@@ -91,27 +99,55 @@ const Login = () => {
 
                     {/* ── Quick Fill Role Buttons ── */}
                     <div className="mb-5">
-                        
                         <div className="flex items-center gap-3 mb-3">
                             <div className="flex-1 h-px bg-gray-200" />
-                            <span className="text-xs font-semibold  whitespace-nowrap">
+                            <span className="text-xs font-semibold whitespace-nowrap">
                                 Login as
                             </span>
                             <div className="flex-1 h-px bg-gray-200" />
                         </div>
-                       
-                        <div className="w-full">
+
+                        <div className="grid grid-cols-3 gap-2.5">
+                            {/* Admin */}
                             <button
                                 type="button"
                                 onClick={() => handleQuickFill('admin')}
-                                className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
-                                    ${activeRole === 'admin'
+                                className={`flex items-center justify-center gap-1.5 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
+                ${activeRole === 'admin'
                                         ? 'bg-[#00B795] border-[#00B795] text-white scale-[1.02]'
                                         : 'border-[#00B795] text-[#00B795] hover:bg-[#00B795]/10'
                                     }`}
                             >
                                 <MdAdminPanelSettings className="text-xl" />
                                 Admin
+                            </button>
+
+                            {/* Rider */}
+                            <button
+                                type="button"
+                                onClick={() => handleQuickFill('rider')}
+                                className={`flex items-center justify-center gap-1.5 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
+                ${activeRole === 'rider'
+                                        ? 'bg-[#00B795] border-[#00B795] text-white scale-[1.02]'
+                                        : 'border-[#00B795] text-[#00B795] hover:bg-[#00B795]/10'
+                                    }`}
+                            >
+                                <FaMotorcycle className="text-xl" />
+                                Rider
+                            </button>
+
+                            {/* User */}
+                            <button
+                                type="button"
+                                onClick={() => handleQuickFill('user')}
+                                className={`flex items-center justify-center gap-1.5 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 cursor-pointer
+                ${activeRole === 'user'
+                                        ? 'bg-[#00B795] border-[#00B795] text-white scale-[1.02]'
+                                        : 'border-[#00B795] text-[#00B795] hover:bg-[#00B795]/10'
+                                    }`}
+                            >
+                                <FaUserCircle className="text-xl" />
+                                User
                             </button>
                         </div>
                     </div>
